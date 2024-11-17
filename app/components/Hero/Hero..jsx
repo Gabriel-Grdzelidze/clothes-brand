@@ -1,15 +1,48 @@
+'use client'
 import css from "./Hero.module.css";
 import { FaCartArrowDown } from "react-icons/fa";
 import { MdOutlineFormatLineSpacing } from "react-icons/md";
 import { FaPortrait } from "react-icons/fa";
 import { CiSearch } from "react-icons/ci";
 import Link from "next/link";
-import Menu from "../menu/menu";
+import { useState } from "react";
 
 function Hero() {
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
   return (
     <section className={css.section}>
-      <Menu  />
+      {isMenuOpen && <div
+        className={`fixed top-0 left-0 h-full bg-gray-950 text-white transition-all duration-300 ${
+          isMenuOpen ? "w-64" : "w-0"
+        } overflow-hidden`}
+      >
+        <button
+          onClick={toggleMenu}
+          className="absolute top-4 right-4 text-2xl text-white hover:text-orange-500 transition-all"
+          aria-label="Close Menu"
+        >
+          &times;
+        </button>
+        <nav className="flex flex-col items-start p-6 space-y-4">
+          <a href="#" className="text-lg hover:text-orange-500 transition-all">
+            Home
+          </a>
+          <a href="#" className="text-lg hover:text-orange-500 transition-all">
+            Fashion
+          </a>
+          <a href="#" className="text-lg hover:text-orange-500 transition-all">
+            Electronics
+          </a>
+          <a href="#" className="text-lg hover:text-orange-500 transition-all">
+            Jewellery
+          </a>
+        </nav>
+      </div>}
       <div className={css.navdiv}>
         <ul className={css.ul}>
           <li className={css.li}>
@@ -36,7 +69,7 @@ function Hero() {
         </div>
 
         <div className={css.bigdiv}>
-          <MdOutlineFormatLineSpacing className={css.icon} />
+          <MdOutlineFormatLineSpacing className={css.icon} onClick={toggleMenu} />
           <select className={css.select1}>
             <option className={css.opt1} value="All Category">
               All Category
