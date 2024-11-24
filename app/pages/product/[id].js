@@ -1,8 +1,10 @@
 import { useRouter } from 'next/router';
+import products_db from 'products-list';
 
 const Product = ({ Product }) => {
   const router = useRouter();
   const { id } = router.query; // Getting the dynamic route parameter
+  const {title , price , img } =products_db;
 
   if (!Product) {
     return <div>Loading...</div>;
