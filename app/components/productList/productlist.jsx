@@ -299,7 +299,7 @@ function ProductList(props) {
         <h1 className={css.h1}>Jewellery</h1>
 
         <div className={css.maindiv}>
-          <a  href={"/jumjas"}>
+          <a  href={"/jumkas"}>
             <div className={css.card}>
               <h1 className={css.cardTitle}>Jumkas</h1>
               <p>
