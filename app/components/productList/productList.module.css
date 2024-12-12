@@ -25,10 +25,8 @@
 
 .img {
   width: 100%;
-  height: auto;
-  border-radius: 10px;
-  background: transparent;
-  vertical-align: middle;
+  height: 300px;  /* Fixed height */
+  object-fit: cover;  /* Ensure image doesn't stretch */
 }
 
 .cardTitle {
@@ -53,14 +51,20 @@
   text-align: center;
   font-weight: 700;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  height: 525px;
+  height: 525px;  /* Fixed height to avoid shrinking */
+  min-width: 250px;  /* Ensure it doesn't shrink smaller than this */
+  width: 100%;  /* Ensure it takes up full width of container but doesn't shrink */
+  max-width: 300px;  /* Optional: Prevent stretching beyond this width */
   cursor: pointer;
+  box-sizing: border-box;  /* Ensures padding doesn't affect overall width/height */
   transition: .6s;
+
 }
 
 .card:hover{
   transform: scale(1.1);
 }
+
 
 .adiv {
   display: flex;

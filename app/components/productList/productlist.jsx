@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import css from "./productList.module.css";
-import { Children, useEffect, useState } from "react";
+import React, { Children, useEffect, useState } from "react";
 import { useRef } from "react";
 import Feedback from "./feedback";
 import FeedbackError from "./feedbackerror";
@@ -57,9 +57,9 @@ function ProductList(props) {
   const electronics_products = [
     {
       id: "laptop",
-      title: "Lep-top",
+      title: "Lap-top",
       price: "500$",
-      img: "/leptop.png",
+      img: "/laptop.png",
     },
     {
       id: "mobile",
@@ -96,7 +96,45 @@ function ProductList(props) {
     },
   ];
 
-  console.log(clothes_products);
+  const Card = React.memo( (props) => {
+    const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoaded(true), 500); // Delay visibility until after the page has rendered
+    return () => clearTimeout(timer);
+  }, []);
+
+    return (
+      <div style={{ visibility: loaded ? 'visible' : 'hidden' }}>
+        <a key={props.id} href={`product/${props.id}`}>
+        <div className={css.card}>
+          <h1 className={css.cardTitle}>{props.title}</h1>
+          <p>
+            <span className={css.span1}>Price</span>{" "}
+            <span className={css.span2}>{props.price}</span>
+          </p>
+          <Image
+            className={css.img}
+            src={props.img}
+            alt={props.title}
+            width={200}
+            height={150}
+            onLoad={() => setLoaded(true)} // Once image is loaded, update visibility
+            
+          />
+          <div className={css.otherdiv}>
+            <a className={css.a1} href="product/${props.id}">
+              Buy Now
+            </a>
+            <a className={css.a2} href="#">
+              See More
+            </a>
+          </div>
+        </div>
+      </a>
+      </div>
+    );
+  })
 
   return (
     <div className={css.thediv}>
@@ -104,105 +142,16 @@ function ProductList(props) {
         <h1 className={css.h1}>Man & Woman Fashion</h1>
 
         <div className={css.maindiv}>
-          {/* {clothes_products.map (detail => {
-            <div className={css.card} key={detail.id} >
-            <h1 className={css.cardTitle}>{detail.title}</h1>
-            <p>
-              <span className={css.span1}>Price</span>
-              <span className={css.span2}>{detail.price}</span>
-            </p>
-            <Image
-              className={css.img}
-              src={detail.img}
-              alt={detail.title}
-              width={200}
-              height={150}
-            />
-            <div className={css.otherdiv}>
-              <a className={css.a1} href="#">
-                Buy Now
-              </a>
-              <a className={css.a2} href="#">
-                See More
-              </a>
-            </div>
-          </div>
-          })} */}
-
-          <a  href={"/T-shirt"}>
-            <div className={css.card}>
-              <h1 className={css.cardTitle}>Man T-shirt</h1>
-              <p>
-                <span className={css.span1}>Price</span>{" "}
-                <span className={css.span2}>30$</span>
-              </p>
-              <Image
-                className={css.img}
-                src={"/shirt.png"}
-                alt="shirt"
-                width={200}
-                height={150}
+          {clothes_products.map((product) => {
+            return (
+              <Card
+                title={product.title}
+                img={product.img}
+                id={product.id}
+                price={product.price}
               />
-              <div className={css.otherdiv}>
-                <a className={css.a1} href="#">
-                  Buy Now
-                </a>
-                <a className={css.a2} href="#">
-                  See More
-                </a>
-              </div>
-            </div>
-          </a>
-
-          <a  href={"/Suit"}>
-            <div className={css.card}>
-              <h1 className={css.cardTitle}>Man suit</h1>
-              <p>
-                <span className={css.span1}>Price</span>{" "}
-                <span className={css.span2}>100$</span>
-              </p>
-              <Image
-                className={css.img}
-                src={"/suit.png"}
-                alt="shirt"
-                width={200}
-                height={150}
-              />
-              <div className={css.otherdiv}>
-                <a className={css.a1} href="#">
-                  Buy Now
-                </a>
-                <a className={css.a2} href="#">
-                  See More
-                </a>
-              </div>
-            </div>
-          </a>
-
-          <a  href={"/Dress"}>
-            <div className={css.card}>
-              <h1 className={css.cardTitle}>Woman dress</h1>
-              <p>
-                <span className={css.span1}>Price</span>{" "}
-                <span className={css.span2}>70$</span>
-              </p>
-              <Image
-                className={css.img}
-                src={"/dress.png"}
-                alt="shirt"
-                width={200}
-                height={150}
-              />
-              <div className={css.adiv}>
-                <a className={css.a1} href="#">
-                  Buy Now
-                </a>
-                <a className={css.a2} href="#">
-                  See More
-                </a>
-              </div>
-            </div>
-          </a>
+            );
+          })}
         </div>
         <div className={css.icons}>
           <FaArrowLeft className={css.icon} />
@@ -214,80 +163,16 @@ function ProductList(props) {
         <h1 className={css.h1}>Electronics</h1>
 
         <div className={css.maindiv}>
-          <a  href={"/leptop"}>
-            <div className={css.card}>
-              <h1 className={css.cardTitle}>laptop</h1>
-              <p>
-                <span className={css.span1}>start Price</span>{" "}
-                <span className={css.span2}>300$$</span>
-              </p>
-              <Image
-                className={css.img}
-                src={"/laptop.png"}
-                alt="shirt"
-                width={200}
-                height={150}
+          {electronics_products.map((product) => {
+            return (
+              <Card
+                title={product.title}
+                img={product.img}
+                id={product.id}
+                price={product.price}
               />
-              <div className={css.adivelectro}>
-                <a className={css.a1} href="#">
-                  Buy Now
-                </a>
-                <a className={css.a2} href="#">
-                  See More
-                </a>
-              </div>
-            </div>
-          </a>
-
-          <a  href={"/mobile"}>
-            <div className={css.card}>
-              <h1 className={css.cardTitle}>Mobile</h1>
-              <p>
-                <span className={css.span1}>Start Price</span>{" "}
-                <span className={css.span2}>500$</span>
-              </p>
-              <Image
-                className={css.img}
-                src={"/mobile.png"}
-                alt="shirt"
-                width={200}
-                height={150}
-              />
-              <div className={css.adivelectro}>
-                <a className={css.a1} href="#">
-                  Buy Now
-                </a>
-                <a className={css.a2} href="#">
-                  See More
-                </a>
-              </div>
-            </div>
-          </a>
-
-          <a  href={"/PC"}>
-            <div className={css.card}>
-              <h1 className={css.cardTitle}>computers</h1>
-              <p>
-                <span className={css.span1}>Start Price</span>{" "}
-                <span className={css.span2}>800$</span>
-              </p>
-              <Image
-                className={css.img}
-                src={"/computer.png"}
-                alt="shirt"
-                width={200}
-                height={150}
-              />
-              <div className={css.adiv}>
-                <a className={css.a1} href="#">
-                  Buy Now
-                </a>
-                <a className={css.a2} href="#">
-                  See More
-                </a>
-              </div>
-            </div>
-          </a>
+            );
+          })}
         </div>
         <div className={css.icons}>
           <FaArrowLeft className={css.icon} />
@@ -299,80 +184,16 @@ function ProductList(props) {
         <h1 className={css.h1}>Jewellery</h1>
 
         <div className={css.maindiv}>
-          <a  href={"/jumkas"}>
-            <div className={css.card}>
-              <h1 className={css.cardTitle}>Jumkas</h1>
-              <p>
-                <span className={css.span1}>start Price</span>{" "}
-                <span className={css.span2}>300$$</span>
-              </p>
-              <Image
-                className={css.img}
-                src={"/1.png"}
-                alt="shirt"
-                width={200}
-                height={150}
+        {Jewllery_products.map((product) => {
+            return (
+              <Card
+                title={product.title}
+                img={product.img}
+                id={product.id}
+                price={product.price}
               />
-              <div className={css.adivelectro}>
-                <a className={css.a1} href="#">
-                  Buy Now
-                </a>
-                <a className={css.a2} href="#">
-                  See More
-                </a>
-              </div>
-            </div>
-          </a>
-
-          <a  href={"/neckles"}>
-            <div className={css.card}>
-              <h1 className={css.cardTitle}>Necklaces</h1>
-              <p>
-                <span className={css.span1}>Start Price</span>{" "}
-                <span className={css.span2}>500$</span>
-              </p>
-              <Image
-                className={css.img}
-                src={"/2.png"}
-                alt="shirt"
-                width={200}
-                height={150}
-              />
-              <div className={css.adivelectro}>
-                <a className={css.a1} href="#">
-                  Buy Now
-                </a>
-                <a className={css.a2} href="#">
-                  See More
-                </a>
-              </div>
-            </div>
-          </a>
-
-          <a   href={"/kangans"}>
-            <div className={css.card}>
-              <h1 className={css.cardTitle}>Kangans</h1>
-              <p>
-                <span className={css.span1}>Start Price</span>{" "}
-                <span className={css.span2}>800$</span>
-              </p>
-              <Image
-                className={css.img}
-                src={"/3.png"}
-                alt="shirt"
-                width={200}
-                height={150}
-              />
-              <div className={css.adiv2}>
-                <a className={css.a1} href="#">
-                  Buy Now
-                </a>
-                <a className={css.a2} href="#">
-                  See More
-                </a>
-              </div>
-            </div>
-          </a>
+            );
+          })}
         </div>
         <div className={css.icons}>
           <FaArrowLeft className={css.icon} />
