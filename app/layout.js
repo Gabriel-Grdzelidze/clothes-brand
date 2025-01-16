@@ -1,4 +1,4 @@
-// app/layout.js
+
 import Head from 'next/head';
 
 export default function RootLayout({ children }) {

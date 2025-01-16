@@ -7,6 +7,7 @@ import { CiSearch } from "react-icons/ci";
 import Link from "next/link";
 import { useState } from "react";
 
+
 function Hero() {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -60,6 +61,7 @@ function Hero() {
           <li className={css.li}>
             <a href="#">Customer Service</a>
           </li>
+          <li className={css.li}><Link href="/dashboard">Dashboard</Link></li>
         </ul>
       </div>
 
@@ -104,7 +106,7 @@ function Hero() {
               <FaCartArrowDown />
               Cart
             </Link>
-            <a className={css.p} href="#">
+            <a className={css.p} href="account">
               <FaPortrait />
               Account
             </a>
@@ -120,6 +122,7 @@ function Hero() {
         </h1>
         <button className={css.buttmid}>Shop Now</button>
       </div>
+      <a className={css.all} href="all-products">See All Products</a>
     </section>
   );
 }

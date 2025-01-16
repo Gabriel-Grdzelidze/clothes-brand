@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import css from "./productList.module.css";
-import React, { Children, useEffect, useState } from "react";
+import React, { Children, use, useEffect, useState } from "react";
 import { useRef } from "react";
 import Feedback from "./feedback";
 import FeedbackError from "./feedbackerror";
@@ -9,10 +9,35 @@ import { FaArrowRight } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa";
 
 
+
 function ProductList(props) {
   const [showFeedback, setShowFeedback] = useState(false);
   const [showerror, setShowError] = useState(false);
+  const [products , setProducts] = useState([])
+  const [isLoading , setIsLoadin] = useState(true)
+  
+  useEffect(()=>{
+    async function fetchData(){
+      try{
+        const result = await fetch("/api/products")
+        if(!result.ok){
+          return Error
+         }
+        const data = await result.json()
+        setProducts(data)
+      }finally{
+        setIsLoadin(false)
+      }
+    }
+    
+
+    fetchData()
+  },[])
+ 
   const inpRef = useRef();
+
+
+ 
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -33,26 +58,7 @@ function ProductList(props) {
     }
   }
 
-  const clothes_products = [
-    {
-      id: "t-shirt",
-      title: "T-shirt",
-      price: "30$",
-      img: "/shirt.png",
-    },
-    {
-      id: "suit",
-      title: "Suit",
-      price: "100$",
-      img: "/suit.png",
-    },
-    {
-      id: "dress",
-      title: "Dress",
-      price: "70$",
-      img: "/dress.png",
-    },
-  ];
+  
 
   const electronics_products = [
     {
@@ -95,18 +101,28 @@ function ProductList(props) {
       img: "/3.png",
     },
   ];
+  
+
+ 
+
+ 
+
 
   const Card = React.memo( (props) => {
     const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoaded(true), 500); // Delay visibility until after the page has rendered
+    const timer = setTimeout(() => setLoaded(true), 500); 
     return () => clearTimeout(timer);
   }, []);
 
+  console.log(products)
+
+  
+
     return (
       <div style={{ visibility: loaded ? 'visible' : 'hidden' }}>
-        <a key={props.id} href={`product/${props.id}`}>
+        <a key={props.id} href={`product/${props.url}`}>
         <div className={css.card}>
           <h1 className={css.cardTitle}>{props.title}</h1>
           <p>
@@ -119,7 +135,7 @@ function ProductList(props) {
             alt={props.title}
             width={200}
             height={150}
-            onLoad={() => setLoaded(true)} // Once image is loaded, update visibility
+            onLoad={() => setLoaded(true)} 
             
           />
           <div className={css.otherdiv}>
@@ -136,17 +152,23 @@ function ProductList(props) {
     );
   })
 
+  console.log(products)
+
+if(isLoading){return <p>Loaing...</p>}
   return (
     <div className={css.thediv}>
       <section className={css.section}>
         <h1 className={css.h1}>Man & Woman Fashion</h1>
+    
 
         <div className={css.maindiv}>
-          {clothes_products.map((product) => {
+          {products.map((product) => {
             return (
               <Card
+                key={product.id}
+                url={product.url}
                 title={product.title}
-                img={product.img}
+                img={product.mainImg}
                 id={product.id}
                 price={product.price}
               />

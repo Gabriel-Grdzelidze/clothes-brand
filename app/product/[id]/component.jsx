@@ -6,6 +6,9 @@ import { useState } from "react";
 import css from "./components.module.css";
 
 function DetailPage(props) {
+
+  const { mainImg , title , price , img1 , img2 , description } = props.data;
+
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
@@ -33,8 +36,8 @@ function DetailPage(props) {
       <div className={css.maindiv}>
         <div className={css.imgs}>
           <Image
-            src={props.mainImg}
-            alt={props.title}
+            src={mainImg}
+            alt={title}
             width={400}
             height={100}
             className={css.mainImg}
@@ -42,14 +45,14 @@ function DetailPage(props) {
 
           <div className={css.imgdiv}>
             <Image
-              src={props.img1}
-              alt={props.title}
+              src={img1}
+              alt={title}
               width={200}
               height={150}
             />
             <Image
-              src={props.img2}
-              alt={props.title}
+              src={img2}
+              alt={title}
               width={200}
               height={150}
             />
@@ -58,8 +61,8 @@ function DetailPage(props) {
 
         <div>
           <div className={css.toprow}>
-            <h1>{props.title}</h1>
-            <p>{props.price}</p>
+            <h1>{title}</h1>
+            <p>{price}</p>
           </div>
 
           <div className={css.reviewsDiv}>
@@ -106,7 +109,7 @@ function DetailPage(props) {
               </fieldset>
             </div>
 
-            <div>
+            {/* {sizes && <div>
               <label>Size</label>
 
               <fieldset aria-label="Choose a size" className="mt-4">
@@ -158,12 +161,12 @@ function DetailPage(props) {
                   ))}
                 </RadioGroup>
               </fieldset>
-            </div>
+            </div>} */}
           </div>
 
           <div className={css.descriptionDiv}>
             <label className={css.descriptionLabel}>Description</label>
-            <p className={css.description}>{props.description}</p>
+            <p className={css.description}>{description}</p>
           </div>
         </div>
       </div>

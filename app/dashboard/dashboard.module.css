@@ -1,0 +1,262 @@
+.pagebox{
+    max-width: 100%;
+    max-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+}
+
+.signdiv {
+  width: 100%;
+  height: 100vh;
+  padding: none;
+  margin: none;
+  background-color: #1f1f1f;
+}
+
+.signbox {
+  background-color: #f1f1f1;
+  color: #1f1f1f;
+  padding: 10px;
+  border-radius: 5px;
+  max-width: 500px;
+  position: absolute;
+  width: 600px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset,
+    rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(255, 255, 255, 0.3) 0px 30px 60px -30px;
+}
+
+.signh1 {
+  font-size: 40px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  margin-left: 30px;
+}
+
+.signinp {
+  margin: 0px 10px;
+  border-radius: 10px;
+  outline: none;
+  border: 2px solid #344cb7;
+  padding: 5px 10px 5px 5px;
+  transition: 0.6s;
+  margin-left: 30px;
+}
+
+.signinp:focus {
+  border: 2px solid #5cb338;
+  padding: 5px 15px 5px 5px;
+}
+
+.signbutt {
+  background-color: #344cb7;
+  border-radius: 10px;
+  border: none;
+  font-size: 17px;
+  margin: 40px 150px 10px;
+  padding: 13px 55px;
+  transition: 0.6s;
+}
+
+.signbutt:hover {
+  background-color: #5cb338;
+}
+
+.signdivbox {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.sidebar {
+  width: 20%;
+  height: 100vh;
+  -webkit-box-shadow: 23px 1px 31px -10px rgba(0, 0, 0, 0.32);
+  -moz-box-shadow: 23px 1px 31px -10px rgba(0, 0, 0, 0.32);
+  box-shadow: 23px 1px 31px -10px rgba(0, 0, 0, 0.32);
+  background-color: #fff;
+  z-index: 1;
+}
+
+.h1div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    padding-top: 20px;
+}
+
+.h1bold{
+    font-weight: 700;
+}
+
+.h1notbold{
+    font-weight: 300;
+    font-size: 28px;
+}
+
+.sidebuttons{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: baseline;
+    padding-left: 10px;
+    margin-top: 80px;
+    gap: 30px;
+}
+
+.sidebuttons > p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+    padding: 10px;
+    width: 200px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: .2s;
+    border: 2px solid #fff;
+}
+.sidebuttons > p:nth-child(2){
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+    padding: 10px 24px 10px 10px;
+    width: 200px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: .2s;
+    border: 2px solid #fff;
+}
+
+.sidebuttons > p:hover{
+    border: 2px solid #00CCDD;
+}
+
+.sidebuttons > p > span:first-child{
+    font-size: 25px;
+    margin: 0 5px;
+    font-weight: 100;
+}
+
+.sidebuttons > p > span:last-child{
+    font-size: 25px;
+    font-weight: 100;
+}
+
+.topdiv{
+    width: 100%;
+    height: 90px;
+    background-color: #fff;
+    position: relative;
+}
+
+.searchdiv{
+    margin: 35px 0px 10px 50px;
+    display: flex;
+}
+
+.searchdiv>input{
+    background:none;
+    
+    font-size:18px;
+    color: #A9A9A9;
+    outline: none;
+  width: 500px;
+}
+
+.searchdiv > span{
+    font-size: 18px;
+    margin-top:6px;
+    color: #A9A9A9;
+}
+
+.rightbox{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.bottomdiv{
+    background-color:#f1f1f1;
+    width: 100%;
+    height: 100vh;
+}
+
+.profbox{
+    position: absolute;
+    top: 10px;
+    right: 70px;
+    display: flex;
+    gap: 5px;
+}
+
+.profbox>div:first-child{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 23px;
+    gap: 25px;
+    color: #A9A9A9;
+    border-right: 1px solid #A9A9A9;
+    padding: 5px 10px 5px 5px;
+}
+
+.profbox>div:last-child{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    
+}
+
+.profbox>div:last-child > p>span:last-child{
+    font-weight: 700;
+}
+
+.profImg{
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    margin-left: 10px;
+    padding: 2px;
+    border: 1px solid #A9A9A9;
+}
+
+.bellicon{
+    position: relative;
+}
+
+.bellicon:after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: red;
+  }
+
+  .sidebuttonactivated{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+    padding: 10px;
+    width: 200px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: .2s;
+    border: 2px solid #00CCDD;
+    background-color: #00CCDD;
+    color: #f1f1f1;
+    font-size: 28px;
+  }

@@ -12,7 +12,7 @@
 }
 
 .ul{
-    width: 50%;
+    width: 60%;
     margin: auto;
     display: flex;
     justify-content: center;
@@ -167,4 +167,21 @@
     position: absolute;
     top: 0;
     left: 0;
+}
+
+.all{
+    position: absolute;
+    color: #f1f1f1;
+    top: 390px;
+    left: 5px;
+    border: 1px solid #f1f1f1;
+    border-radius: 10px;
+    transition: .6s;
+    padding: 10px 15px;
+}
+
+.all:hover{
+    background-color: #f1f1f1;
+    color: #fd7e14;
+    padding: 13px 20px;
 }
