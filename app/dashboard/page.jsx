@@ -10,6 +10,8 @@ import { SlMagnifier } from "react-icons/sl";
 import { BiSolidMessageRounded } from "react-icons/bi";
 import { FaBell } from "react-icons/fa6";
 import Customers from "./customers";
+import Inventory from "./Inventory";
+import Dash from "./dash";
 
 function Dashboard() {
   const [login, setLogin] = useState(false);
@@ -47,35 +49,33 @@ function Dashboard() {
     setErrorMessage("");
     setSuccessMessage("");
     setIsLoading(true);
-
+  
     try {
       const response = await fetch("/api/verifi-user", {
         method: "POST",
-        body: JSON.stringify({ name: name, password: password }),
+        body: JSON.stringify({ name, password }),
         headers: {
           "Content-Type": "application/json",
         },
       });
-
-      const data = await response.json();
-
-      setIsLoading(false);
-      if (response.ok) {
-        setSuccessMessage(data.message || "Login successful!");
-        setLogin(false);
-      } else {
-        setErrorMessage(
-          data.message || "Something went wrong. Please try again."
-        );
+  
+      if (!response.ok) {
+        const data = await response.json();
+        setErrorMessage(data.message || "Something went wrong.");
+        return;
       }
+  
+      const data = await response.json();
+      setSuccessMessage(data.message || "Login successful!");
+      setLogin(false);
     } catch (error) {
-      console.error("Unexpected error", error);
-      setIsLoading(false);
       setErrorMessage("An unexpected error occurred.");
     } finally {
-      setLogin(false);
+      setIsLoading(false);
+      setLogin(false)
     }
   }
+  
 
   if (login) {
     return (
@@ -172,8 +172,8 @@ function Dashboard() {
         </div>
 
         <div className={css.bottomdiv}>
-          {dashboard && <p>dashboard</p>}
-          {inventory && <p>inventory</p>}
+          {dashboard && <Dash />}
+          {inventory && <Inventory />}
           {customers && <Customers />}
         </div>
       </div>

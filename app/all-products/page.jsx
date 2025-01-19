@@ -29,7 +29,7 @@ function AllProducts() {
     const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
-      const timer = setTimeout(() => setLoaded(true), 500); // Delay visibility until after the page has rendered
+      const timer = setTimeout(() => setLoaded(true), 500);
       return () => clearTimeout(timer);
     }, []);
 
@@ -48,7 +48,7 @@ function AllProducts() {
               alt={props.title}
               width={200}
               height={150}
-              onLoad={() => setLoaded(true)} // Once image is loaded, update visibility
+              onLoad={() => setLoaded(true)}
             />
             <div className={css.otherdiv}>
               <a className={css.a1} href="product/${props.id}">
@@ -73,7 +73,7 @@ function AllProducts() {
       <div className={css.topHDiv}>
         {" "}
         <h1 className={css.topH}>All Products</h1>
-        <a className={css.buttona} href="add-product">Add Product</a>
+        
       </div>
       <div className="grid grid-cols-4 ">
         {allProducts.map((product) => {

@@ -32,63 +32,99 @@
   width: 400px;
 }
 
-.h1{
-    font-size: 40px;
-    font-weight: 600;
-    margin: 10px 10px 30px 90px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+.h1 {
+  font-size: 40px;
+  font-weight: 600;
+  margin: 10px 10px 80px 90px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.inpbox{
-    margin: 10px 5px;
-    display: flex;
-    justify-content: center;
-    align-items: baseline;
-    flex-direction: column;
+.inpbox {
+  margin: 10px 5px;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  flex-direction: column;
 }
 
-.inpbox >label{
-    font-size: 16px;
-    margin-bottom: 7px;
+.inpbox > label {
+  font-size: 16px;
+  margin-bottom: 7px;
 }
 
-.row{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.inpbox > input{
-    outline: none;
-    padding: 7px 12px;
-    border: 1px solid #FCC737;
-    border-radius: 10px;
-    transition: .7s;
+.inpbox > input {
+  outline: none;
+  padding: 7px 12px;
+  border: 1px solid #fcc737;
+  border-radius: 10px;
+  transition: 0.7s;
 }
 
-.inpbox >input:focus{
-    padding: 10px 15px;
-    border: 1px solid #F26B0F;
+.inpbox > input:focus {
+  padding: 10px 15px;
+  border: 1px solid #f26b0f;
 }
 
-.inpbox >textarea{
-    outline: none;
-    padding: 7px 12px;
-    border: 1px solid #FCC737;
-    border-radius: 10px;
-    transition: .7s;
+.inpbox > textarea {
+  outline: none;
+  padding: 7px 12px;
+  border: 1px solid #fcc737;
+  border-radius: 10px;
+  transition: 0.7s;
 }
 
-.inpbox >textarea:focus{
-    border: 1px solid #F26B0F;
+.inpbox > textarea:focus {
+  border: 1px solid #f26b0f;
 }
 
-.button{
-    padding: 10px 15px;
-    font-size: 17px;
-    background-color: #FCC737;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    margin: 10px 0 10px 130px;
+.button {
+  padding: 10px 15px;
+  font-size: 17px;
+  background-color: #fcc737;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 10px 0 10px 130px;
+}
+
+.select {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  flex-direction: column;
+}
+
+.select > label {
+  font-size: 17px;
+  margin-bottom: 7px;
+}
+
+.select > select {
+  font-size: 16px;
+  padding: 5px;
+  border: 1px solid #fcc737;
+  outline: none;
+  border-radius: 10px;
+  transition: 0.6s;
+}
+
+.select > select:focus {
+  font-size: 16px;
+  padding: 5px;
+  border: 1px solid #f26b0f;
+  outline: none;
+}
+
+.select > select > option {
+ 
+ 
+  border: 1px solid #ccc;
+  background-color: white;
+
 }

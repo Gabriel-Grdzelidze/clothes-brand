@@ -24,6 +24,7 @@ function Customers() {
   console.log(users);
 
   const Card = (props) => {
+   
     return (
       <div className={css.userCard}>
         <h1>{props.name}</h1>
@@ -33,10 +34,18 @@ function Customers() {
     );
   };
 
+  if(isLoading){
+    return <p>Loading User Data...</p>
+  }
   return (
     <div>
-      <h1>Our Customers</h1>
-      {isLoading && <p>Getting User Data...</p>}
+      <h1 className={css.title}>Our Customers</h1>
+      
+      <div className={css.userCardTop}>
+        <h1>Name</h1>
+        <h1>email</h1>
+        <h1>password</h1>
+      </div>
       {users.map((user) => {
         return (
           <Card

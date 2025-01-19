@@ -1,0 +1,75 @@
+.title {
+  font-size: 50px;
+  margin-left: 33%;
+  margin-bottom: 50px;
+}
+
+.categoryBox {
+  width: 400px;
+  margin-left: 100px;
+}
+
+.categoryBox > h1 {
+  font-size: 30px;
+  margin-left: 100px;
+}
+
+.categoryBox > ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  margin-top: 40px;
+}
+
+.categoryBox > ul > li {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.liActive {
+  font-size: 25px;
+  cursor: pointer;
+  color: #00ccdd;
+}
+
+.card {
+  margin-bottom: 50px;
+  padding: 30px;
+  border: 2px solid black;
+  position: relative;
+}
+
+.buttona {
+  color: #1f1f1f;
+  border: 2px solid #00ccdd;
+  padding: 7px 15px;
+  transition: 0.6s;
+  opacity: 0.6;
+  margin-right: 200px;
+  border-radius: 10px;
+}
+
+.buttona:hover {
+  opacity: 1;
+  background-color: #00ccdd;
+}
+
+
+.topdiv{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.deleteButton{
+position: absolute;
+right: 50px;
+top: 20px;
+font-size: 20px;
+color: #F93827;
+}
+
+.span{
+  font-weight: 700;
+}

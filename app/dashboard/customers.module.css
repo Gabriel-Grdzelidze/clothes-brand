@@ -1,18 +1,45 @@
+.title{
+  font-size: 50px;
+  margin-left: 35%;
+  margin-bottom: 200px;
+}
+
 .userCard {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: space-around;
     align-items: center;
     gap: 10px;
-    background-color: #f1f1f1;
+    background-color: #FBF5DD;
     border: 1px solid #1f1f1f;
     padding: 3px;
     width: 50%;
+    gap: 100px;
+    margin-bottom: 20px;
+    margin-left: 15%;
   }
+
   
+.userCardTop {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  gap: 10px;
+  background-color: #E7D283;
+  border: 1px solid #1f1f1f;
+  padding: 3px;
+  width: 50%;
+  gap: 100px;
+  margin-bottom: 0px;
+  margin-left: 15%;
+  border-bottom: none;
+}
+ 
   .userCard > h1 {
     font-weight: 500;
     letter-spacing: 1px;
     margin: 0;
   }
+
   
