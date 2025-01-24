@@ -20,12 +20,12 @@
   text-align: center;
   font-weight: 700;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  height: 400px; /* Fixed height to avoid shrinking */
-  min-width: 250px; /* Ensure it doesn't shrink smaller than this */
-  width: 100%; /* Ensure it takes up full width of container but doesn't shrink */
-  max-width: 250px; /* Optional: Prevent stretching beyond this width */
+  height: 400px; 
+  min-width: 250px;
+  width: 100%; 
+  max-width: 250px; 
   cursor: pointer;
-  box-sizing: border-box; /* Ensures padding doesn't affect overall width/height */
+  box-sizing: border-box;
   transition: 0.6s;
   margin: 20px;
 }
@@ -98,3 +98,19 @@
   margin-left: 40%;
 }
 
+.selectDiv{
+  margin-left: 40px;
+
+  width: 300px;
+}
+
+.selectDiv > label{
+  color: #f1f1f1;
+  margin: 5px;
+}
+
+.selectDiv > select{
+  outline: none;
+  border-radius: 5px;
+  padding: 7px 5px;
+}

@@ -12,11 +12,12 @@ model user {
   email    String  @unique
   name     String?
   password String
+  admin    Boolean
 }
 
 model product {
   id          String  @id @default(auto()) @map("_id") @db.ObjectId
-  url         String
+  url         String @unique
   title       String
   description String
   price       String

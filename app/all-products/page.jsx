@@ -8,21 +8,55 @@ import ".././globals.css";
 function AllProducts() {
   const [allProducts, setAllProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [clothesProducts, setClothesProducts] = useState([]);
+  const [electronicsProducts, setelectronicsProducts] = useState([]);
+  const [jewleryProducts, setjewleryProducts] = useState([]);
+  const [category, setCategory] = useState("all");
+  const [filtered, setFiltered] = useState([]);
+
   useEffect(() => {
-    async function fetchdata() {
-      try {
-        const result = await fetch("/api/products");
-        if (!result.ok) {
-          return console.error(error);
-        }
-        const data = await result.json();
-        setAllProducts(data);
-      } finally {
-        setIsLoading(false);
-      }
+    async function allProducts() {
+      const result = await fetch("/api/products");
+      const data = await result.json();
+      setAllProducts(data);
+      setIsLoading(false);
     }
 
-    fetchdata();
+    async function clothesProducts() {
+      const result = await fetch("/api/verifiuser");
+      const data = await result.json();
+      setClothesProducts(data);
+      setIsLoading(false);
+    }
+
+    async function electronicProducts() {
+      const result = await fetch("/api/addproduct");
+      const data = await result.json();
+      setelectronicsProducts(data);
+      setIsLoading(false);
+    }
+
+    async function jewleryProducts() {
+      const result = await fetch("/api/jewleryProducts");
+      const data = await result.json();
+      setjewleryProducts(data);
+      setIsLoading(false);
+    }
+
+    async function filteredProducts() {
+      const result = await fetch("/api/delete", {
+        method: "GET",
+      });
+      const data = await result.json();
+      setFiltered(data);
+      setIsLoading(false);
+    }
+
+    allProducts();
+    electronicProducts();
+    clothesProducts();
+    jewleryProducts();
+    filteredProducts();
   }, []);
 
   const Card = React.memo((props) => {
@@ -40,7 +74,7 @@ function AllProducts() {
             <h1 className={css.cardTitle}>{props.title}</h1>
             <p>
               <span className={css.span1}>Price</span>{" "}
-              <span className={css.span2}>{props.price}</span>
+              <span className={css.span2}>{props.price}$</span>
             </p>
             <Image
               className={css.img}
@@ -64,31 +98,124 @@ function AllProducts() {
     );
   });
 
-  if (isLoading) {
-    return <p>Loading All Products...</p>;
-  }
+  const reverceFilter = filtered.slice().reverse();
 
   return (
-    <div>
+    <div className="h-screen">
       <div className={css.topHDiv}>
         {" "}
         <h1 className={css.topH}>All Products</h1>
-        
+        <div className={css.selectDiv}>
+          <label>Filter:</label>
+          <select
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            <option value="all">All</option>
+            <option value="Clothes">clothes</option>
+            <option value="electronics">Electronics</option>
+            <option value="jewllery">Jewllery</option>
+            <option value="highprice">By price(High to low)</option>
+            <option value="lowprice">By price(Low to high)</option>
+          </select>
+        </div>
       </div>
-      <div className="grid grid-cols-4 ">
-        {allProducts.map((product) => {
-          return (
-            <Card
-              key={product.id}
-              url={product.url}
-              title={product.title}
-              img={product.mainImg}
-              id={product.id}
-              price={product.price}
-            />
-          );
-        })}
-      </div>
+      {isLoading ? (
+        <p>Loading Data...</p>
+      ) : (
+        <div className="grid grid-cols-4 overflow-y-auto h-[80vh]">
+          {isLoading && <p>Loading Data...</p>}
+          {category === "all"
+            ? allProducts.map((product) => {
+                return (
+                  <Card
+                    key={product.id}
+                    url={product.url}
+                    title={product.title}
+                    img={product.mainImg}
+                    id={product.id}
+                    price={product.price}
+                  />
+                );
+              })
+            : undefined}
+
+          {category === "Clothes"
+            ? clothesProducts.map((product) => {
+                return (
+                  <Card
+                    key={product.id}
+                    url={product.url}
+                    title={product.title}
+                    img={product.mainImg}
+                    id={product.id}
+                    price={product.price}
+                  />
+                );
+              })
+            : undefined}
+
+          {category === "electronics"
+            ? electronicsProducts.map((product) => {
+                return (
+                  <Card
+                    key={product.id}
+                    url={product.url}
+                    title={product.title}
+                    img={product.mainImg}
+                    id={product.id}
+                    price={product.price}
+                  />
+                );
+              })
+            : undefined}
+
+          {category === "jewllery"
+            ? jewleryProducts.map((product) => {
+                return (
+                  <Card
+                    key={product.id}
+                    url={product.url}
+                    title={product.title}
+                    img={product.mainImg}
+                    id={product.id}
+                    price={product.price}
+                  />
+                );
+              })
+            : undefined}
+
+          {category === "highprice"
+            ? filtered.map((product) => {
+                return (
+                  <Card
+                    key={product.id}
+                    url={product.url}
+                    title={product.title}
+                    img={product.mainImg}
+                    id={product.id}
+                    price={product.price}
+                  />
+                );
+              })
+            : undefined}
+
+          {category === "lowprice"
+            ? reverceFilter.map((product) => {
+                return (
+                  <Card
+                    key={product.id}
+                    url={product.url}
+                    title={product.title}
+                    img={product.mainImg}
+                    id={product.id}
+                    price={product.price}
+                  />
+                );
+              })
+            : undefined}
+        </div>
+      )}
     </div>
   );
 }

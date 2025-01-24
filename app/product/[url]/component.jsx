@@ -62,7 +62,7 @@ function DetailPage(props) {
         <div>
           <div className={css.toprow}>
             <h1>{title}</h1>
-            <p>{price}</p>
+            <p>{price}$</p>
           </div>
 
           <div className={css.reviewsDiv}>

@@ -89,7 +89,7 @@
 //       const response = await fetch(`/api/delete/${id}`, {
 //         method: 'DELETE',
 //       });
-  
+
 //       if (response.ok) {
 //         refreshProducts();
 //       } else {
@@ -99,7 +99,7 @@
 //       console.error('Error deleting product:', error);
 //     }
 //   };
-  
+
 //   const Card = (props) => {
 //     const [hover, setHover] = useState(false);
 //     return (
@@ -312,23 +312,24 @@ function Inventory() {
     jewleryProducts();
   }, []);
 
-  const handleDelete = async (id) => {
+  async function handleDelete(id){
     try {
-      const response = await fetch(`/api/delete/${id}`, {
-        method: 'DELETE',
+      const response = await fetch("/api/delete", {
+        method: "DELETE",
+        body : JSON.stringify({
+          id
+        })
       });
-  
+
       if (response.ok) {
         window.location.reload();
       } else {
-        console.error('Failed to delete product');
+        console.error("Failed to delete product");
       }
     } catch (error) {
-      console.error('Error deleting product:', error);
+      console.error("Error deleting product:", error);
     }
   };
-  
-  
 
   const Card = (props) => {
     const [hover, setHover] = useState(false);
@@ -338,14 +339,29 @@ function Inventory() {
         onMouseLeave={() => setHover(false)}
         className={css.card}
       >
-        <p><span className={css.span}>Name<span className={css.span}></span></span> : {props.name}</p>
-        <p><span className={css.span}>Price</span> : {props.price}$</p>
-        <p><span className={css.span}>Image1</span>: {props.mainimg}</p>
-        <p><span className={css.span}>Image2</span> : {props.img1}</p>
-        <p><span className={css.span}>Image3</span> : {props.img2} </p>
-        <p><span className={css.span}>Description</span> : {props.description} </p>
+        <p>
+          <span className={css.span}>
+            Name
+          </span>{" "}
+          : {props.name}
+        </p>
+        <p>
+          <span className={css.span}>Price</span> : {props.price}$
+        </p>
+        <p>
+          <span className={css.span}>Image1</span>: {props.mainimg}
+        </p>
+        <p>
+          <span className={css.span}>Image2</span> : {props.img1}
+        </p>
+        <p>
+          <span className={css.span}>Image3</span> : {props.img2}{" "}
+        </p>
+        <p>
+          <span className={css.span}>Description</span> : {props.description}{" "}
+        </p>
         {hover && (
-          <button className={css.deleteButton} onClick={props.onDelete} >
+          <button className={css.deleteButton} onClick={props.delete}>
             <MdDelete />
           </button>
         )}
@@ -404,7 +420,7 @@ function Inventory() {
                 img2={product.img2}
                 description={product.description}
                 key={product.id}
-                onDelete={()=>handleDelete(product.id)}
+                delete={()=>handleDelete(product.id)}
               />
             );
           })}
@@ -420,7 +436,7 @@ function Inventory() {
                 img2={product.img2}
                 description={product.description}
                 key={product.id}
-                onDelete={()=>handleDelete(product.id)}
+                delete={()=>handleDelete(product.id)}
               />
             );
           })}
@@ -436,7 +452,7 @@ function Inventory() {
                 img2={product.img2}
                 description={product.description}
                 key={product.id}
-                onDelete={()=>handleDelete(product.id)}
+                delete={()=>handleDelete(product.id)}
               />
             );
           })}
@@ -452,7 +468,7 @@ function Inventory() {
                 img2={product.img2}
                 description={product.description}
                 key={product.id}
-                onDelete={()=>handleDelete(product.id)}
+                delete={()=>handleDelete(product.id)}
               />
             );
           })}

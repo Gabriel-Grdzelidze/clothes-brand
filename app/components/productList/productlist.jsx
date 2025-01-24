@@ -2,7 +2,6 @@
 import Image from "next/image";
 import css from "./productList.module.css";
 import React, { Children, use, useEffect, useState } from "react";
-import { useRef } from "react";
 import Feedback from "./feedback";
 import FeedbackError from "./feedbackerror";
 import { FaArrowRight } from "react-icons/fa";
@@ -13,28 +12,37 @@ import { FaArrowLeft } from "react-icons/fa";
 function ProductList(props) {
   const [showFeedback, setShowFeedback] = useState(false);
   const [showerror, setShowError] = useState(false);
-  const [products , setProducts] = useState([])
-  const [isLoading , setIsLoadin] = useState(true)
+  const [isLoading ,setIsLoading] = useState(true)
+  const [Clothes, setClothes] = useState([]);
+  const [electronics, setElectronics] = useState([]);
+  const [jewlery, setJewlery] = useState([]);
   
-  useEffect(()=>{
-    async function fetchData(){
-      try{
-        const result = await fetch("/api/products")
-        if(!result.ok){
-          return Error
-         }
-        const data = await result.json()
-        setProducts(data)
-      }finally{
-        setIsLoadin(false)
-      }
+  useEffect(() => {
+    async function clothesProducts() {
+      const result = await fetch("/api/verifiuser");
+      const data = await result.json();
+      setClothes(data);
+     setIsLoading(false);
     }
-    
 
-    fetchData()
-  },[])
- 
-  const inpRef = useRef();
+    async function electronicProducts() {
+      const result = await fetch("/api/addproduct");
+      const data = await result.json();
+      setElectronics(data);
+     setIsLoading(false);
+    }
+
+    async function jewleryProducts() {
+      const result = await fetch("/api/jewleryProducts");
+      const data = await result.json();
+      setJewlery(data);
+     setIsLoading(false);
+    }
+
+    electronicProducts();
+    clothesProducts();
+    jewleryProducts();
+  }, []);
 
 
  
@@ -60,47 +68,47 @@ function ProductList(props) {
 
   
 
-  const electronics_products = [
-    {
-      id: "laptop",
-      title: "Lap-top",
-      price: "500$",
-      img: "/laptop.png",
-    },
-    {
-      id: "mobile",
-      title: "Mobile",
-      price: "300",
-      img: "/mobile.png",
-    },
-    {
-      id: "pc",
-      title: "PC",
-      price: "800$",
-      img: "/computer.png",
-    },
-  ];
+  // const electronics_products = [
+  //   {
+  //     id: "laptop",
+  //     title: "Lap-top",
+  //     price: "500$",
+  //     img: "/laptop.png",
+  //   },
+  //   {
+  //     id: "mobile",
+  //     title: "Mobile",
+  //     price: "300",
+  //     img: "/mobile.png",
+  //   },
+  //   {
+  //     id: "pc",
+  //     title: "PC",
+  //     price: "800$",
+  //     img: "/computer.png",
+  //   },
+  // ];
 
-  const Jewllery_products = [
-    {
-      id: "jumkas",
-      title: "Jumkas",
-      price: "300$",
-      img: "/1.png",
-    },
-    {
-      id: "neckles",
-      title: "Neckles",
-      price: "500$",
-      img: "/2.png",
-    },
-    {
-      id: "kangans",
-      title: "Kangans",
-      price: "800$",
-      img: "/3.png",
-    },
-  ];
+  // const Jewllery_products = [
+  //   {
+  //     id: "jumkas",
+  //     title: "Jumkas",
+  //     price: "300$",
+  //     img: "/1.png",
+  //   },
+  //   {
+  //     id: "neckles",
+  //     title: "Neckles",
+  //     price: "500$",
+  //     img: "/2.png",
+  //   },
+  //   {
+  //     id: "kangans",
+  //     title: "Kangans",
+  //     price: "800$",
+  //     img: "/3.png",
+  //   },
+  // ];
   
 
  
@@ -116,7 +124,8 @@ function ProductList(props) {
     return () => clearTimeout(timer);
   }, []);
 
-  console.log(products)
+
+  console.log(electronics)
 
   
 
@@ -152,7 +161,6 @@ function ProductList(props) {
     );
   })
 
-  console.log(products)
 
 if(isLoading){return <p>Loaing...</p>}
   return (
@@ -162,7 +170,7 @@ if(isLoading){return <p>Loaing...</p>}
     
 
         <div className={css.maindiv}>
-          {products.map((product) => {
+          {Clothes.map((product) => {
             return (
               <Card
                 key={product.id}
@@ -185,13 +193,15 @@ if(isLoading){return <p>Loaing...</p>}
         <h1 className={css.h1}>Electronics</h1>
 
         <div className={css.maindiv}>
-          {electronics_products.map((product) => {
+          {electronics.map((product) => {
             return (
               <Card
-                title={product.title}
-                img={product.img}
-                id={product.id}
-                price={product.price}
+              key={product.id}
+              url={product.url}
+              title={product.title}
+              img={product.mainImg}
+              id={product.id}
+              price={product.price}
               />
             );
           })}
@@ -206,13 +216,15 @@ if(isLoading){return <p>Loaing...</p>}
         <h1 className={css.h1}>Jewellery</h1>
 
         <div className={css.maindiv}>
-        {Jewllery_products.map((product) => {
+        {jewlery.map((product) => {
             return (
               <Card
-                title={product.title}
-                img={product.img}
-                id={product.id}
-                price={product.price}
+              key={product.id}
+              url={product.url}
+              title={product.title}
+              img={product.mainImg}
+              id={product.id}
+              price={product.price}
               />
             );
           })}
@@ -227,7 +239,7 @@ if(isLoading){return <p>Loaing...</p>}
         <h1 className={css.h1B}>Eflier</h1>
 
         <div className={css.inputdiv}>
-          <input ref={inpRef} type="text" placeholder="Your Email" />
+          <input type="text" placeholder="Your Email" />
           <button onClick={submited}>SUBSCRIBE</button>
         </div>
 
