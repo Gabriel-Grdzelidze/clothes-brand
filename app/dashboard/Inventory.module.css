@@ -68,8 +68,18 @@ right: 50px;
 top: 20px;
 font-size: 20px;
 color: #F93827;
+cursor: pointer;
 }
 
 .span{
   font-weight: 700;
 }
+
+.updateButton{
+  position: absolute;
+  right: 80px;
+  top: 20px;
+  font-size: 20px;
+  color: #344CB7;
+  cursor: pointer;
+  }
