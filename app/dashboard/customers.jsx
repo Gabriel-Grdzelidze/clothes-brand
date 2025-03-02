@@ -1,46 +1,56 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useMutation, useQuery } from "@apollo/client";
 import css from "./customers.module.css";
+import { GET_USERS } from "../../graphql/query";
+import { MdDelete } from "react-icons/md";
+import { DELETE_USER } from "../../graphql/mutations";
 
 function Customers() {
-  const [users, setUsers] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isDelete, setIsDelete] = useState(false);
 
-  useEffect(() => {
-    async function getUsers() {
-      const response = await fetch("/api/getusers");
-      if (!response.ok) {
-        return new Response("failed to load users");
-      }
-      const data = await response.json();
-      setUsers(data);
-      setIsLoading(false);
-      console.log(data);
-    }
-
-    getUsers();
-  }, []);
-
-  console.log(users);
+  const { data, loading, error } = useQuery(GET_USERS);
+  const users = data?.users;
+  console.log(users)
+  const [deleteUser] = useMutation(DELETE_USER,{
+    refetchQueries:{query: GET_USERS}
+  })
 
   const Card = (props) => {
-   
     return (
-      <div className={css.userCard}>
-        <h1>{props.name}</h1>
-        <h1>{props.email}</h1>
-        <h1>{props.password}</h1>
+      <div className="flex align-baseline">
+        {" "}
+        <div className={css.userCard}>
+          <h1>{props.name}</h1>
+          <h1>{props.email}</h1>
+          <h1>{props.password}</h1>
+        </div>
+        <div>
+          {isDelete && (
+            <button onClick={props.onDelete}>
+              <MdDelete/>
+            </button>
+          )}
+        </div>
       </div>
     );
   };
 
-  if(isLoading){
-    return <p>Loading User Data...</p>
+  if (loading) {
+    return <p>Loading Users...</p>;
+  }
+
+  if(error){
+    console.log(error)
   }
   return (
     <div>
       <h1 className={css.title}>Our Customers</h1>
-      
+      <button  className={css.deleteBut} 
+        onClick={() => (isDelete ? setIsDelete(false) : setIsDelete(true))}
+      >
+        {isDelete ? "Cancle" : "Delete User"}
+      </button>
       <div className={css.userCardTop}>
         <h1>Name</h1>
         <h1>email</h1>
@@ -53,6 +63,9 @@ function Customers() {
             name={user.name}
             email={user.email}
             password={user.password}
+            onDelete={()=>deleteUser({
+              variables:{id:user.id}
+            })}
           />
         );
       })}

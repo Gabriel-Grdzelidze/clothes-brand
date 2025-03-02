@@ -77,6 +77,8 @@
   border: 1px solid #fcc737;
   border-radius: 10px;
   transition: 0.7s;
+  width: 250px;
+  height: auto;
 }
 
 .inpbox > textarea:focus {
@@ -129,3 +131,10 @@
 
 }
 
+.exit{
+  position: absolute;
+  top: 260px;
+  left: 1150px;
+  font-size: 30px;
+  z-index: 1;
+}

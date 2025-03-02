@@ -1,51 +1,22 @@
 "use client";
 import Image from "next/image";
 import css from "./productList.module.css";
-import React, { Children, use, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import Feedback from "./feedback";
 import FeedbackError from "./feedbackerror";
 import { FaArrowRight } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa";
+import { useQuery } from "@apollo/client";
+import { GET_PRODUCT_CARD } from "../../../graphql/query";
+import Link from "next/link";
 
-
-
-function ProductList(props) {
+function ProductList() {
   const [showFeedback, setShowFeedback] = useState(false);
   const [showerror, setShowError] = useState(false);
-  const [isLoading ,setIsLoading] = useState(true)
-  const [Clothes, setClothes] = useState([]);
-  const [electronics, setElectronics] = useState([]);
-  const [jewlery, setJewlery] = useState([]);
-  
-  useEffect(() => {
-    async function clothesProducts() {
-      const result = await fetch("/api/verifiuser");
-      const data = await result.json();
-      setClothes(data);
-     setIsLoading(false);
-    }
-
-    async function electronicProducts() {
-      const result = await fetch("/api/addproduct");
-      const data = await result.json();
-      setElectronics(data);
-     setIsLoading(false);
-    }
-
-    async function jewleryProducts() {
-      const result = await fetch("/api/jewleryProducts");
-      const data = await result.json();
-      setJewlery(data);
-     setIsLoading(false);
-    }
-
-    electronicProducts();
-    clothesProducts();
-    jewleryProducts();
-  }, []);
-
-
- 
+  const [title, setTitle] = useState("");
+  const [price, setPrice] = useState("");
+  const { data, loading, error } = useQuery(GET_PRODUCT_CARD);
+  const products = data?.products;
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -66,108 +37,64 @@ function ProductList(props) {
     }
   }
 
-  
-
-  // const electronics_products = [
-  //   {
-  //     id: "laptop",
-  //     title: "Lap-top",
-  //     price: "500$",
-  //     img: "/laptop.png",
-  //   },
-  //   {
-  //     id: "mobile",
-  //     title: "Mobile",
-  //     price: "300",
-  //     img: "/mobile.png",
-  //   },
-  //   {
-  //     id: "pc",
-  //     title: "PC",
-  //     price: "800$",
-  //     img: "/computer.png",
-  //   },
-  // ];
-
-  // const Jewllery_products = [
-  //   {
-  //     id: "jumkas",
-  //     title: "Jumkas",
-  //     price: "300$",
-  //     img: "/1.png",
-  //   },
-  //   {
-  //     id: "neckles",
-  //     title: "Neckles",
-  //     price: "500$",
-  //     img: "/2.png",
-  //   },
-  //   {
-  //     id: "kangans",
-  //     title: "Kangans",
-  //     price: "800$",
-  //     img: "/3.png",
-  //   },
-  // ];
-  
-
- 
-
- 
-
-
-  const Card = React.memo( (props) => {
+  const Card = React.memo((props) => {
     const [loaded, setLoaded] = useState(false);
 
-  useEffect(() => {
-    const timer = setTimeout(() => setLoaded(true), 500); 
-    return () => clearTimeout(timer);
-  }, []);
-
-
-  console.log(electronics)
-
-  
+    useEffect(() => {
+      const timer = setTimeout(() => setLoaded(true), 500);
+      return () => clearTimeout(timer);
+    }, []);
 
     return (
-      <div style={{ visibility: loaded ? 'visible' : 'hidden' }}>
-        <a key={props.id} href={`product/${props.url}`}>
-        <div className={css.card}>
-          <h1 className={css.cardTitle}>{props.title}</h1>
-          <p>
-            <span className={css.span1}>Price</span>{" "}
-            <span className={css.span2}>{props.price}</span>
-          </p>
-          <Image
-            className={css.img}
-            src={props.img}
-            alt={props.title}
-            width={200}
-            height={150}
-            onLoad={() => setLoaded(true)} 
-            
-          />
-          <div className={css.otherdiv}>
-            <a className={css.a1} href="product/${props.id}">
-              Buy Now
-            </a>
-            <a className={css.a2} href="#">
-              See More
-            </a>
+      <div style={{ visibility: loaded ? "visible" : "hidden" }}>
+        <Link key={props.id} href={`product/${props.id}`}>
+          <div className={css.card}>
+            <h1 className={css.cardTitle}>{props.title}</h1>
+            <p>
+              <span className={css.span1}>Price</span>{" "}
+              <span className={css.span2}>{props.price}$</span>
+            </p>
+            <Image
+              className={css.img}
+              src={props.img}
+              alt={props.title}
+              width={200}
+              height={150}
+              onLoad={() => setLoaded(true)}
+            />
+            <div className={css.otherdiv}>
+              <Link className={css.a1} href="product/${props.id}">
+                Buy Now
+              </Link>
+              <Link className={css.a2} href="#">
+                See More
+              </Link>
+            </div>
           </div>
-        </div>
-      </a>
+        </Link>
       </div>
     );
-  })
+  });
 
+  if (loading) {
+    return <p className="ml-[900px] text-4xl">Loading...</p>;
+  }
 
-if(isLoading){return <p>Loaing...</p>}
+  if (error) {
+    return <p>this bullshit doesnt work </p>;
+    console.log(error);
+  }
+
+  const Clothes = products.filter((product) => product.category === "clothes");
+  const Electronics = products.filter(
+    (product) => product.category === "electronics"
+  );
+  const Jewlery = products.filter((product) => product.category === "jewlery");
+
   return (
     <div className={css.thediv}>
       <section className={css.section}>
         <h1 className={css.h1}>Man & Woman Fashion</h1>
-    
 
         <div className={css.maindiv}>
           {Clothes.map((product) => {
@@ -193,15 +120,15 @@ if(isLoading){return <p>Loaing...</p>}
         <h1 className={css.h1}>Electronics</h1>
 
         <div className={css.maindiv}>
-          {electronics.map((product) => {
+          {Electronics.map((product) => {
             return (
               <Card
-              key={product.id}
-              url={product.url}
-              title={product.title}
-              img={product.mainImg}
-              id={product.id}
-              price={product.price}
+                key={product.id}
+                url={product.url}
+                title={product.title}
+                img={product.mainImg}
+                id={product.id}
+                price={product.price}
               />
             );
           })}
@@ -216,15 +143,15 @@ if(isLoading){return <p>Loaing...</p>}
         <h1 className={css.h1}>Jewellery</h1>
 
         <div className={css.maindiv}>
-        {jewlery.map((product) => {
+          {Jewlery.map((product) => {
             return (
               <Card
-              key={product.id}
-              url={product.url}
-              title={product.title}
-              img={product.mainImg}
-              id={product.id}
-              price={product.price}
+                key={product.id}
+                url={product.url}
+                title={product.title}
+                img={product.mainImg}
+                id={product.id}
+                price={product.price}
               />
             );
           })}

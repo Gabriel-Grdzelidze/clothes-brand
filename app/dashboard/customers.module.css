@@ -42,4 +42,19 @@
     margin: 0;
   }
 
-  
+.deleteBut{
+  background-color: #E52020;
+  padding: 5px 15px;
+  font-size: 19px;
+  border-radius: 5px;
+  position: absolute;
+  top: 30%;
+  right: 30%;
+  color: #f1f1f1;
+  transition: .6s;
+}
+
+.deleteBut:hover{
+  background-color: #A31D1D;
+  border-radius: 10px;
+}

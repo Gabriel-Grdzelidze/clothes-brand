@@ -1,54 +1,47 @@
 "use client";
+import { useMutation } from "@apollo/client";
 import css from "./add-product.module.css";
 import { useState } from "react";
+import { ADD_PRODUCT, UPDATE_PRODUCT } from "../../graphql/mutations";
+import { useRouter } from "next/navigation";
+
 function AddProduct() {
-  const [name, setName] = useState("");
+  const router = useRouter();
+  const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
-  const [img1, setImg1] = useState("");
-  const [img2, setImg2] = useState("");
-  const [img3, setImg3] = useState("");
+  const [mainImg, setImg1] = useState("");
+  const [img1, setImg2] = useState("");
+  const [img2, setImg3] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("clothes");
-  function imgpath(img) {
-    const path = `/${img}`;
-    return path;
-  }
 
-  async function AddProductHandler(e) {
-    console.log(category, name, price, description, img1, img2, img3);
+  const [addProduct] = useMutation(ADD_PRODUCT);
+  
 
-    const path1 = imgpath(img1);
-    const path2 = imgpath(img2);
-    const path3 = imgpath(img3);
+  const handleAddProduct = async (e) => {
+    e.preventDefault();
+    try {
+      await addProduct({
+        variables: {
+          title,
+          price: parseFloat(price), // ✅ Corrected to Float
+          mainImg,
+          img1,
+          img2,
+          description,
+          category, // ✅ No duplicate
+        }
+      });
+      router.push('/dashboard'); // ✅ Navigate after mutation
+    } catch (error) {
+      console.error('Error adding product:', error);
+    }
+  };
 
-    fetch("/api/addproduct", {
-      method: "POST",
-      body: JSON.stringify({
-        name,
-        price: price.toString(),
-        img1: path1,
-        img2: path2,
-        img3: path3,
-        description,
-        category,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then(async (response) => {
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`API error: ${errorText}`);
-      }
-
-      const data = await response.json();
-      console.log("Success:", data);
-    });
-  }
 
   return (
     <div className={css.thediv}>
-      <form onSubmit={AddProductHandler}>
+      <form onSubmit={handleAddProduct}>
         <div className={css.motherdiv}>
           <h1 className={css.h1}>Add Product</h1>
 
@@ -67,10 +60,7 @@ function AddProduct() {
             <div className={css.inpbox}>
               <label>Products Name</label>
               <input
-                onChange={(e) => {
-                  setName(e.target.value);
-                }}
-                className=""
+                onChange={(e) => setTitle(e.target.value)}
                 type="text"
                 placeholder="Type Here"
               />
@@ -79,10 +69,7 @@ function AddProduct() {
             <div className={css.inpbox}>
               <label>Products Price($)</label>
               <input
-                onChange={(e) => {
-                  setPrice(e.target.value);
-                }}
-                className=""
+                onChange={(e) => setPrice(e.target.value)}
                 type="text"
                 placeholder="Type Here"
               />
@@ -92,10 +79,7 @@ function AddProduct() {
             <div className={css.inpbox}>
               <label>Products image URL(1)</label>
               <input
-                onChange={(e) => {
-                  setImg1(e.target.value);
-                }}
-                className=""
+                onChange={(e) => setImg1(e.target.value)}
                 type="text"
                 placeholder="Type Here"
               />
@@ -104,10 +88,7 @@ function AddProduct() {
             <div className={css.inpbox}>
               <label>Products image URL(2)</label>
               <input
-                onChange={(e) => {
-                  setImg2(e.target.value);
-                }}
-                className=""
+                onChange={(e) => setImg2(e.target.value)}
                 type="text"
                 placeholder="Type Here"
               />
@@ -117,10 +98,7 @@ function AddProduct() {
             <div className={css.inpbox}>
               <label>Products image URL(3)</label>
               <input
-                onChange={(e) => {
-                  setImg3(e.target.value);
-                }}
-                className=""
+                onChange={(e) => setImg3(e.target.value)}
                 type="text"
                 placeholder="Type Here"
               />
@@ -128,9 +106,7 @@ function AddProduct() {
             <div className={css.inpbox}>
               <label>Products Description</label>
               <textarea
-                onChange={(e) => {
-                  setDescription(e.target.value);
-                }}
+                onChange={(e) => setDescription(e.target.value)}
                 placeholder="Type Here"
               ></textarea>
             </div>

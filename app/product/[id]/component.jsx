@@ -5,6 +5,7 @@ import "../.././globals.css";
 import { useState } from "react";
 import css from "./components.module.css";
 
+
 function DetailPage(props) {
 
   const { mainImg , title , price , img1 , img2 , description } = props.data;

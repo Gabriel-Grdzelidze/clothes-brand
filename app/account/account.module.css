@@ -39,6 +39,7 @@
     display: flex;
     align-items: baseline;
     flex-direction: column;
+    margin-left: 50px;
   }
 
 .box{
@@ -100,4 +101,22 @@
 
 .button:hover{
   opacity: 1;
+}
+
+.state{
+  border:1px solid #ECE852;
+  font-size: 20px;
+  padding: 5px 10px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  background-color: #ECE852;
+  border-radius: 5px;
+  transition: 0.6s;
+}
+
+.state:hover{
+  border : 1px solid #FFC145;
+  background-color: #FFC145;
 }

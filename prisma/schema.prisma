@@ -7,20 +7,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model user {
-  id       String  @id @default(auto()) @map("_id") @db.ObjectId
-  email    String  @unique
-  name     String?
+model User {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  email    String @unique
   password String
-  admin    Boolean
 }
 
-model product {
+model Product {
   id          String  @id @default(auto()) @map("_id") @db.ObjectId
-  url         String @unique
   title       String
   description String
-  price       String
+  price       Float
   mainImg     String?
   img1        String?
   img2        String?
