@@ -1,4 +1,4 @@
-import { Context } from "@apollo/client";
+import { Context } from "../app/api/graphql/route";
 
 export const resolvers = {
   Query: {
