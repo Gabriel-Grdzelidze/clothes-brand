@@ -19,8 +19,7 @@ model Product {
   title       String
   description String
   price       Float
-  mainImg     String?
-  img1        String?
-  img2        String?
+  image       String
   category    String
 }
+

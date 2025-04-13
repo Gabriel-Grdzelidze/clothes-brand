@@ -28,6 +28,7 @@ function Inventory() {
 
   const {data , error , loading} = useQuery(GET_PRODUCTS)
   const products = data?.products
+  
   function allActive() {
     setAll(true);
     setClothes(false);

@@ -14,30 +14,67 @@ function AddProduct() {
   const [img2, setImg3] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("clothes");
+  const [loading, setLoading] = useState(false);
 
   const [addProduct] = useMutation(ADD_PRODUCT);
-  
+ 
 
   const handleAddProduct = async (e) => {
     e.preventDefault();
+    setLoading(true);
+  
+    if (!img2 || !(img2 instanceof File)) {
+      console.error("Invalid img2 file:", img2);
+      return;
+    }
+  
+    const formData = new FormData();
+    formData.append("file", img2);
+  
     try {
+      const res = await fetch("/api/s3-apload", {
+        method: "POST",
+        body: formData,
+      });
+  
+      if (!res.ok) {
+        const errorResponse = await res.json();
+        console.error("Error uploading file: Response not OK", errorResponse);
+        return;
+      }
+  
+      const responseBody = await res.json();
+      console.log("File upload successful. Response:", responseBody);
+  
+      const fileUrl = responseBody?.fileUrl;
+  
+      if (typeof fileUrl !== 'string') {
+        console.error("Invalid file URL:", fileUrl);
+        return;
+      }
+  
       await addProduct({
         variables: {
           title,
-          price: parseFloat(price), // ✅ Corrected to Float
+          price: parseFloat(price),
           mainImg,
           img1,
-          img2,
+          img2: fileUrl,
           description,
-          category, // ✅ No duplicate
-        }
+          category,
+        },
       });
-      router.push('/dashboard'); // ✅ Navigate after mutation
+  
+      router.push('/dashboard');
+      setLoading(false);
     } catch (error) {
       console.error('Error adding product:', error);
+      setLoading(false);
     }
   };
-
+  
+  
+  
 
   return (
     <div className={css.thediv}>
@@ -98,8 +135,8 @@ function AddProduct() {
             <div className={css.inpbox}>
               <label>Products image URL(3)</label>
               <input
-                onChange={(e) => setImg3(e.target.value)}
-                type="text"
+                onChange={(e) => setImg3(e.target.files[0])}
+                type="file"
                 placeholder="Type Here"
               />
             </div>
@@ -112,7 +149,7 @@ function AddProduct() {
             </div>
           </div>
           <button className={css.button} type="submit">
-            Add Product
+            {loading ? "Adding Product..." : "Add Product"}
           </button>
         </div>
       </form>
