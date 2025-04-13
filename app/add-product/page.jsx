@@ -46,9 +46,10 @@ function AddProduct() {
       const responseBody = await res.json();
       console.log("File upload successful. Response:", responseBody);
   
-      const fileUrl = responseBody?.fileUrl;
+      const ImageUrl = responseBody?.fileUrl;
+    console.log(ImageUrl)
   
-      if (typeof fileUrl !== 'string') {
+      if (typeof ImageUrl !== 'string') {
         console.error("Invalid file URL:", fileUrl);
         return;
       }
@@ -59,7 +60,7 @@ function AddProduct() {
           price: parseFloat(price),
           mainImg,
           img1,
-          img2: fileUrl,
+          img2: ImageUrl,
           description,
           category,
         },

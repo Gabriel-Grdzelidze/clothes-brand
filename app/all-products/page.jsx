@@ -5,15 +5,22 @@ import Image from "next/image";
 import css from "./allProducts.module.css";
 import ".././globals.css";
 import { useQuery } from "@apollo/client";
-import { GET_PRODUCT_CARD } from "../../graphql/query";
+import { GET_PRODUCTS } from "../../graphql/query";
 import Link from "next/link";
 
 function AllProducts() {
   const [category, setCategory] = useState("all");
+const [products, setProducts] = useState([]);
+  const { data, loading, error } = useQuery(GET_PRODUCTS);
 
-  const { data, loading, error } = useQuery(GET_PRODUCT_CARD);
-  const products = data?.products;
-  console.log(products);
+  const fetchImageUrl = async (imageKey) => {
+    const res = await fetch(`/api/s3-fetch?imageKey=${imageKey}`);
+    const data = await res.json();
+    return data.imageUrl;
+  };
+  console.log(fetchImageUrl())
+
+
 
   const Card = (props) => {
     return (

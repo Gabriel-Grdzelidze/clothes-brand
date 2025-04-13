@@ -15,11 +15,12 @@ model User {
 }
 
 model Product {
-  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String
   price       Float
-  image       String
+  mainImg     String
+  img1        String
+  img2        String
   category    String
 }
-
