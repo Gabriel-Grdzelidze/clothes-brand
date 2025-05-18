@@ -9,7 +9,7 @@ import { useState } from "react";
 import { signOut, useSession } from "next-auth/react";
 import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
-import theme from '../../../theme/index'
+import theme from "../../../theme/index";
 
 function Hero() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -20,7 +20,21 @@ function Hero() {
   };
   return (
     <section className={css.section}>
-      {session && <div style={{backgroundColor:theme.bgBlack(0.5)}} className="absolute top-[50px] right-[100px] flex justify-center items-center gap-4 p-3 rounded-lg"><p className="text-white" >{session.user.name}</p><Image className="rounded-[50%]" src={session.user.image} alt="profile" width={35} height={35}/>  </div>}
+      {session && (
+        <div
+          style={{ backgroundColor: theme.bgBlack(0.5) }}
+          className="absolute top-[50px] right-[100px] flex justify-center items-center gap-4 p-3 rounded-lg"
+        >
+          <p className="text-white">{session.user.name}</p>
+          <Image
+            className="rounded-[50%]"
+            src={session.user.image}
+            alt="profile"
+            width={35}
+            height={35}
+          />{" "}
+        </div>
+      )}
       {isMenuOpen && (
         <div
           className={`fixed top-0 left-0 h-full bg-gray-950 text-white transition-all duration-300 ${
@@ -79,9 +93,11 @@ function Hero() {
           <li className={css.li}>
             <Link href="#">Customer Service</Link>
           </li>
-          <li className={css.li}>
-            <Link href="/dashboard">Dashboard</Link>
-          </li>
+          {session ? (
+            <li className={css.li}>
+              <Link href="/dashboard">Dashboard</Link>
+            </li>
+          ) : null}
         </ul>
       </div>
 
@@ -128,9 +144,17 @@ function Hero() {
             <Link className={css.p} href="cart">
               <FaCartArrowDown />
               Cart
-            </Link> 
+            </Link>
             {session ? (
-              <button style={{display:'flex',alignItems:'center',color:'#fff'}} onClick={() => signOut()}>Sign Out <span><ArrowRightOnRectangleIcon className="w-5 h-5"/></span></button>
+              <button
+                style={{ display: "flex", alignItems: "center", color: "#fff" }}
+                onClick={() => signOut()}
+              >
+                Sign Out{" "}
+                <span>
+                  <ArrowRightOnRectangleIcon className="w-5 h-5" />
+                </span>
+              </button>
             ) : (
               <Link className={css.p} href="account">
                 <FaPortrait />

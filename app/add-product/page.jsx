@@ -8,9 +8,9 @@ import Feedback from "../components/productList/feedback";
 function AddProduct() {
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
-  const [mainImg, setMainImg] = useState("");
-  const [img1, setImg1] = useState("");
-  const [img2, setImg2] = useState("");
+  const [mainImg, setMainImg] = useState(null);
+  const [img1, setImg1] = useState(null);
+  const [img2, setImg2] = useState(null);
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("clothes");
   const [loading, setLoading] = useState(false);
@@ -64,23 +64,22 @@ function AddProduct() {
         },
       });
 
-     
-
+      setShowFeedback(true);
       setTimeout(() => {
         setShowFeedback(false);
       }, 3000);
-    } catch (error) {
-      setLoading(false);
-    }finally{
-      setShowFeedback(true);
-      setLoading(false);
+
       setTitle("");
       setPrice("");
-      setMainImg("");
-      setImg1("");
-      setImg2("");
+      setMainImg(null);
+      setImg1(null);
+      setImg2(null);
       setDescription("");
       setCategory("clothes");
+    } catch (error) {
+      setLoading(false);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -108,25 +107,25 @@ function AddProduct() {
             </div>
             <div className={css.inpbox}>
               <label>Products Price($)</label>
-              <input value={price}  onChange={(e) => setPrice(e.target.value)} type="text" />
+              <input value={price} onChange={(e) => setPrice(e.target.value)} type="text" />
             </div>
           </div>
 
           <div className={css.row}>
             <div className={css.inpbox}>
               <label>Products image URL(1)</label>
-              <input value={mainImg} onChange={(e) => setMainImg(e.target.files[0])} type="file" />
+              <input onChange={(e) => setMainImg(e.target.files[0])} type="file" />
             </div>
             <div className={css.inpbox}>
               <label>Products image URL(2)</label>
-              <input value={img1} onChange={(e) => setImg1(e.target.files[0])} type="file" />
+              <input onChange={(e) => setImg1(e.target.files[0])} type="file" />
             </div>
           </div>
 
           <div className={css.row}>
             <div className={css.inpbox}>
               <label>Products image URL(3)</label>
-              <input value={img2} onChange={(e) => setImg2(e.target.files[0])} type="file" />
+              <input onChange={(e) => setImg2(e.target.files[0])} type="file" />
             </div>
             <div className={css.inpbox}>
               <label>Products Description</label>
@@ -141,7 +140,9 @@ function AddProduct() {
           </div>
         </div>
       </form>
-      {showFeedback && <Feedback message={"successfuly added product"} />}
+      <div style={{zIndex:100}}>
+        {showFeedback && <Feedback message={"successfuly added product"} />}
+      </div>
     </div>
   );
 }

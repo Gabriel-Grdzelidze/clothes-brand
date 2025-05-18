@@ -65,78 +65,7 @@ function Inventory() {
     const [updateProduct] = useMutation(UPDATE_PRODUCT,{
       refetchQueries:[{query:GET_PRODUCTS}]
     })
-    // const handleUpdateProduct=async (e) =>{
-
-    //   e.preventDefault
-    //   try{
-    //     await updateProduct({
-    //       variables:{
-    //         id,
-    //         title,
-    //         price:parseInt(price),
-    //         description,
-    //         mainImg,
-    //         img1,
-    //         img2,
-    //         category
-    //       }
-    //     })
-    //   }catch(error){
-    //    console.log(error)
-    //   }
-    // }
-  
-
-
-
-  
-
- 
-
-  // const Card = (props) => {
-  //   const [hover, setHover] = useState(false);
-  //   return (
-  //     <div
-  //       onMouseEnter={() => setHover(true)}
-  //       onMouseLeave={() => setHover(false)}
-  //       className={css.card}
-  //     >
-  //       <p>
-  //         <span className={css.span}>
-  //           Name<span className={css.span}></span>
-  //         </span>{" "}
-  //         : {props.name}
-  //       </p>
-  //       <p>
-  //         <span className={css.span}>Price</span> : {props.price}$
-  //       </p>
-  //       <p>
-  //         <span className={css.span}>Image1</span>: {props.mainimg}
-  //       </p>
-  //       <p>
-  //         <span className={css.span}>Image2</span> : {props.img1}
-  //       </p>
-  //       <p>
-  //         <span className={css.span}>Image3</span> : {props.img2}{" "}
-  //       </p>
-  //       <p>
-  //         <span className={css.span}>Description</span> : {props.description}{" "}
-  //       </p>
-  //       {hover && (
-  //         <button className={css.deleteButton} onClick={props.onDelete}>
-  //           <MdDelete />
-  //         </button>
-  //       )}
-  //       {hover && (
-  //         <button className={css.updateButton} onClick={()=> setUpdate(true)}>
-  //           <MdEditNote />
-  //         </button>
-  //       )}
-  //     </div>
-  //   );
-  // };
-
-
+   
   const handleUpdateProduct = async (e) => {
     e.preventDefault();
     try {
@@ -303,7 +232,7 @@ function Inventory() {
   if(loading) return <p>Loading Data...</p>
   const ClothesProducts = products.filter((product) => product.category === "clothes");
   const ElectronicsProducts = products.filter(
-    (product) => product.category === "electronics"
+    (product) => product.category === "electronic"
   );
   const JewleryProducts = products.filter((product) => product.category === "jewlery");
 
@@ -376,7 +305,7 @@ function Inventory() {
                 img2={product.img2}
                 description={product.description}
                 key={product.id}
-                onDelete={() => deleteProduct}
+                onDelete={() => deleteProduct({variables:{id: product.id}})}
                 onUpdate={() => handleEditProduct(product)}
                 product={product}
               />
@@ -394,7 +323,7 @@ function Inventory() {
                 img2={product.img2}
                 description={product.description}
                 key={product.id}
-                onDelete={() => deleteProduct}
+                onDelete={() => deleteProduct({variables:{id: product.id}})}
                 onUpdate={() => handleEditProduct(product)}
                 product={product}
               />
@@ -412,7 +341,7 @@ function Inventory() {
                 img2={product.img2}
                 description={product.description}
                 key={product.id}
-                onDelete={() => deleteProduct}
+                onDelete={() => deleteProduct({variables:{id: product.id}})}
               />
             );
           })}

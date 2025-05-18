@@ -13,6 +13,7 @@ import Customers from "./customers";
 import Inventory from "./Inventory";
 import Dash from "./dash";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 function Dashboard() {
   const [login, setLogin] = useState(false);
@@ -21,7 +22,8 @@ function Dashboard() {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
+  const { data: session } = useSession();
+  
   
   const [dashboard , setDashboard] = useState(true)
   const [inventory , setInventory] = useState(false)
@@ -77,6 +79,7 @@ function Dashboard() {
     }
   }
   
+   
 
   if (login) {
     return (
@@ -159,16 +162,16 @@ function Dashboard() {
           </div>
 
           <div className={css.profbox}>
-            <div>
+            <div> 
               <BiSolidMessageRounded />
               <FaBell className={css.bellicon} />
             </div>
-            <div>
+            {/* <div>
               <p>
-                <span>Hello, </span> <span>Grdzelo</span>
+                <span>Hello, </span> <span>{useName}</span>
               </p>{" "}
-              <Link href="/profile.png"><Image className={css.profImg} width={50} height={50} src="/profile.png" alt="profile" /></Link>
-            </div>
+              <Link href="/profile.png"><Image className={css.profImg} width={50} height={50} src={useImage} alt="profile" /></Link>
+            </div> */}
           </div>
         </div>
 
