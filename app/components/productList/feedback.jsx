@@ -1,10 +1,10 @@
 import css from './feedback.module.css'
 
-function Feedback(){
+function Feedback({message}){
     return(
         <div className={css.div}>
             <h1>Success!</h1>
-            <p>You Have Successfuly Subscribed</p>
+            <p>{message}</p>
         </div>
     )
 }

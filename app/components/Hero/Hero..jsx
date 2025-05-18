@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import css from "./Hero.module.css";
 import { FaCartArrowDown } from "react-icons/fa";
 import { MdOutlineFormatLineSpacing } from "react-icons/md";
@@ -6,63 +6,82 @@ import { FaPortrait } from "react-icons/fa";
 import { CiSearch } from "react-icons/ci";
 import Link from "next/link";
 import { useState } from "react";
-
-
+import { signOut, useSession } from "next-auth/react";
+import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline";
+import Image from "next/image";
+import theme from '../../../theme/index'
 
 function Hero() {
-
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { data: session } = useSession();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
   return (
     <section className={css.section}>
-      {isMenuOpen && <div
-        className={`fixed top-0 left-0 h-full bg-gray-950 text-white transition-all duration-300 ${
-          isMenuOpen ? "w-64" : "w-0"
-        } overflow-hidden`}
-      >
-        <button
-          onClick={toggleMenu}
-          className="absolute top-4 right-4 text-2xl text-white hover:text-orange-500 transition-all"
-          aria-label="Close Menu"
+      {session && <div style={{backgroundColor:theme.bgBlack(0.5)}} className="absolute top-[50px] right-[100px] flex justify-center items-center gap-4 p-3 rounded-lg"><p className="text-white" >{session.user.name}</p><Image className="rounded-[50%]" src={session.user.image} alt="profile" width={35} height={35}/>  </div>}
+      {isMenuOpen && (
+        <div
+          className={`fixed top-0 left-0 h-full bg-gray-950 text-white transition-all duration-300 ${
+            isMenuOpen ? "w-64" : "w-0"
+          } overflow-hidden`}
         >
-          &times;
-        </button>
-        <nav className="flex flex-col items-start p-6 space-y-4">
-          <a href="#" className="text-lg hover:text-orange-500 transition-all">
-            Home
-          </a>
-          <a href="#" className="text-lg hover:text-orange-500 transition-all">
-            Fashion
-          </a>
-          <a href="#" className="text-lg hover:text-orange-500 transition-all">
-            Electronics
-          </a>
-          <a href="#" className="text-lg hover:text-orange-500 transition-all">
-            Jewellery
-          </a>
-        </nav>
-      </div>}
+          <button
+            onClick={toggleMenu}
+            className="absolute top-4 right-4 text-2xl text-white hover:text-orange-500 transition-all"
+            aria-label="Close Menu"
+          >
+            &times;
+          </button>
+          <nav className="flex flex-col items-start p-6 space-y-4">
+            <Link
+              href="#"
+              className="text-lg hover:text-orange-500 transition-all"
+            >
+              Home
+            </Link>
+            <Link
+              href="#"
+              className="text-lg hover:text-orange-500 transition-all"
+            >
+              Fashion
+            </Link>
+            <Link
+              href="#"
+              className="text-lg hover:text-orange-500 transition-all"
+            >
+              Electronics
+            </Link>
+            <Link
+              href="#"
+              className="text-lg hover:text-orange-500 transition-all"
+            >
+              Jewellery
+            </Link>
+          </nav>
+        </div>
+      )}
       <div className={css.navdiv}>
         <ul className={css.ul}>
           <li className={css.li}>
-            <a href="#">Best Sellers</a>
+            <Link href="#">Best Sellers</Link>
           </li>
           <li className={css.li}>
-            <a href="#">Gift Ideas</a>
+            <Link href="#">Gift Ideas</Link>
           </li>
           <li className={css.li}>
-            <a href="#">New Releases</a>
+            <Link href="#">New Releases</Link>
           </li>
           <li className={css.li}>
-            <a href="#">Today's Deals</a>
+            <Link href="#">Today's Deals</Link>
           </li>
           <li className={css.li}>
-            <a href="#">Customer Service</a>
+            <Link href="#">Customer Service</Link>
           </li>
-          <li className={css.li}><Link href="/dashboard">Dashboard</Link></li>
+          <li className={css.li}>
+            <Link href="/dashboard">Dashboard</Link>
+          </li>
         </ul>
       </div>
 
@@ -72,7 +91,10 @@ function Hero() {
         </div>
 
         <div className={css.bigdiv}>
-          <MdOutlineFormatLineSpacing className={css.icon} onClick={toggleMenu} />
+          <MdOutlineFormatLineSpacing
+            className={css.icon}
+            onClick={toggleMenu}
+          />
           <select className={css.select1}>
             <option className={css.opt1} value="All Category">
               All Category
@@ -106,11 +128,15 @@ function Hero() {
             <Link className={css.p} href="cart">
               <FaCartArrowDown />
               Cart
-            </Link>
-            <a className={css.p} href="account">
-              <FaPortrait />
-              Account
-            </a>
+            </Link> 
+            {session ? (
+              <button style={{display:'flex',alignItems:'center',color:'#fff'}} onClick={() => signOut()}>Sign Out <span><ArrowRightOnRectangleIcon className="w-5 h-5"/></span></button>
+            ) : (
+              <Link className={css.p} href="account">
+                <FaPortrait />
+                Account
+              </Link>
+            )}
           </div>
         </div>
       </div>
@@ -123,7 +149,9 @@ function Hero() {
         </h1>
         <button className={css.buttmid}>Shop Now</button>
       </div>
-      <a className={css.all} href="all-products">See All Products</a>
+      <Link className={css.all} href="all-products">
+        See All Products
+      </Link>
     </section>
   );
 }

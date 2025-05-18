@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import React from "react";
 import Image from "next/image";
 import css from "./allProducts.module.css";
@@ -10,17 +10,15 @@ import Link from "next/link";
 
 function AllProducts() {
   const [category, setCategory] = useState("all");
-const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState([]);
+
   const { data, loading, error } = useQuery(GET_PRODUCTS);
+  
 
-  const fetchImageUrl = async (imageKey) => {
-    const res = await fetch(`/api/s3-fetch?imageKey=${imageKey}`);
-    const data = await res.json();
-    return data.imageUrl;
-  };
-  console.log(fetchImageUrl())
-
-
+  useEffect(() => {
+    const products = data?.products || [];
+    setProducts(products);
+  }, [data]);
 
   const Card = (props) => {
     return (
@@ -40,12 +38,12 @@ const [products, setProducts] = useState([]);
               height={150}
             />
             <div className={css.otherdiv}>
-              <a className={css.a1} href="product/${props.id}">
+              <p className={css.a1} href="product/${props.id}">
                 Buy Now
-              </a>
-              <a className={css.a2} href="#">
+              </p>
+              <p className={css.a2} href="#">
                 See More
-              </a>
+              </p>
             </div>
           </div>
         </Link>
@@ -84,7 +82,7 @@ const [products, setProducts] = useState([]);
   }
   const Clothes = products.filter((product) => product.category === "clothes");
   const Electronics = products.filter(
-    (product) => product.category === "electronics"
+    (product) => product.category === "electronic"
   );
   const Jewlery = products.filter((product) => product.category === "jewlery");
   const sorted = products.slice().sort((a, b) => b.price - a.price);

@@ -8,6 +8,7 @@ import { MdEditNote } from "react-icons/md";
 import { useMutation, useQuery } from "@apollo/client";
 import { GET_PRODUCTS } from "../../graphql/query";
 import { DELETE_PRODUCT, UPDATE_PRODUCT } from "../../graphql/mutations";
+import Link from "next/link";
 
 function Inventory() {
   const [all, setAll] = useState(true);
@@ -211,110 +212,6 @@ function Inventory() {
       </div>
     );
   };
-  
-
- 
-
-   
- 
-  // if (update) {
-  //   return (
-  //     <div className={css2.thediv}>
-  //       <button
-  //         className={css2.exit}
-  //         onClick={() => {
-  //           setUpdate(false);
-  //         }}
-  //       >
-  //         <IoMdExit />
-  //       </button>
-
-  //       <div className={css2.motherdiv}>
-  //       <form onSubmit={handleUpdateProduct({variables:{id: props.id}})}>
-  //         <h1 className={css2.h1}>Update Data</h1>
-  //         <div className={css2.row}>
-  //           <div className={css2.inpbox}>
-  //             <label>Products Name</label>
-  //             <input
-  //               onChange={(e) => {
-  //                 setTitle(e.target.value);
-  //               }}
-  //               value={title}
-  //               type="text"
-  //               placeholder="Type Here"
-  //             />
-  //           </div>
-
-  //           <div className={css2.inpbox}>
-  //             <label>Products Price($)</label>
-  //             <input
-  //               onChange={(e) => {
-  //                 setPrice(e.target.value);
-  //               }}
-  //               value={price}
-  //               type="text"
-  //               placeholder="Type Here"
-  //             />
-  //           </div>
-  //         </div>
-  //         <div className={css2.row}>
-  //           <div className={css2.inpbox}>
-  //             <label>Products image URL(1)</label>
-  //             <input
-  //               onChange={(e) => {
-  //                 setImg1(e.target.value);
-  //               }}
-  //               value={img1}
-  //               type="text"
-  //               placeholder="Type Here"
-  //             />
-  //           </div>
-
-  //           <div className={css2.inpbox}>
-  //             <label>Products image URL(2)</label>
-  //             <input
-  //               onChange={(e) => {
-  //                 setImg2(e.target.value);
-  //               }}
-  //               value={img2}
-  //               type="text"
-  //               placeholder="Type Here"
-  //             />
-  //           </div>
-  //         </div>
-  //         <div className={css2.row}>
-  //           <div className={css2.inpbox}>
-  //             <label>Products image URL(3)</label>
-  //             <input
-  //               onChange={(e) => {
-  //                 setImg3(e.target.value);
-  //               }}
-  //               value={img3}
-  //               type="text"
-  //               placeholder="Type Here"
-  //             />
-  //           </div>
-  //           <div className={css2.inpbox}>
-  //             <label>Products Description</label>
-  //             <textarea
-  //               onChange={(e) => {
-  //                 setDescription(e.target.value);
-  //               }}
-  //               value={description}
-  //               placeholder="Type Here"
-  //             ></textarea>
-  //           </div>
-  //         </div>
-          
-  //           <button className={css2.button} type="submit">
-  //             Update
-  //           </button>
-  //         </form>
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
   if (update) {
     return (
       <div className={css2.thediv}>
@@ -355,9 +252,9 @@ function Inventory() {
               <div className={css2.inpbox}>
                 <label>Products image URL(1)</label>
                 <input
-                  onChange={(e) => setImg1(e.target.value)}
-                  value={mainImg}
-                  type="text"
+                  onChange={(e) => setImg1(e.target.files[0])}
+                 
+                  type="file"
                   placeholder="Type Here"
                 />
               </div>
@@ -365,9 +262,9 @@ function Inventory() {
               <div className={css2.inpbox}>
                 <label>Products image URL(2)</label>
                 <input
-                  onChange={(e) => setImg2(e.target.value)}
-                  value={img1}
-                  type="text"
+                  onChange={(e) => setImg2(e.target.files[0])}
+                  
+                  type="file"
                   placeholder="Type Here"
                 />
               </div>
@@ -376,9 +273,9 @@ function Inventory() {
               <div className={css2.inpbox}>
                 <label>Products image URL(3)</label>
                 <input
-                  onChange={(e) => setImg3(e.target.value)}
-                  value={img2}
-                  type="text"
+                  onChange={(e) => setImg3(e.target.files[0])}
+                  
+                  type="file"
                   placeholder="Type Here"
                 />
               </div>
@@ -442,9 +339,9 @@ function Inventory() {
         </div>
 
         <div>
-          <a className={css.buttona} href="add-product">
+          <Link className={css.buttona} href="add-product">
             Add Product
-          </a>
+          </Link>
         </div>
       </div>
 

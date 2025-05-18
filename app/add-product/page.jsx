@@ -2,158 +2,146 @@
 import { useMutation } from "@apollo/client";
 import css from "./add-product.module.css";
 import { useState } from "react";
-import { ADD_PRODUCT, UPDATE_PRODUCT } from "../../graphql/mutations";
-import { useRouter } from "next/navigation";
+import { ADD_PRODUCT } from "../../graphql/mutations";
+import Feedback from "../components/productList/feedback";
 
 function AddProduct() {
-  const router = useRouter();
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
-  const [mainImg, setImg1] = useState("");
-  const [img1, setImg2] = useState("");
-  const [img2, setImg3] = useState("");
+  const [mainImg, setMainImg] = useState("");
+  const [img1, setImg1] = useState("");
+  const [img2, setImg2] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("clothes");
   const [loading, setLoading] = useState(false);
+  const [showFeedback, setShowFeedback] = useState(false);
 
   const [addProduct] = useMutation(ADD_PRODUCT);
- 
 
   const handleAddProduct = async (e) => {
     e.preventDefault();
     setLoading(true);
-  
-    if (!img2 || !(img2 instanceof File)) {
-      console.error("Invalid img2 file:", img2);
+
+    if (!(mainImg instanceof File) || !(img1 instanceof File) || !(img2 instanceof File)) {
+      setLoading(false);
       return;
     }
-  
+
     const formData = new FormData();
+    formData.append("file", mainImg);
+    formData.append("file", img1);
     formData.append("file", img2);
-  
+
     try {
       const res = await fetch("/api/s3-apload", {
         method: "POST",
         body: formData,
       });
-  
+
       if (!res.ok) {
-        const errorResponse = await res.json();
-        console.error("Error uploading file: Response not OK", errorResponse);
+        setLoading(false);
         return;
       }
-  
-      const responseBody = await res.json();
-      console.log("File upload successful. Response:", responseBody);
-  
-      const ImageUrl = responseBody?.fileUrl;
-    console.log(ImageUrl)
-  
-      if (typeof ImageUrl !== 'string') {
-        console.error("Invalid file URL:", fileUrl);
+
+      const { urls } = await res.json();
+
+      if (!urls || urls.length < 3) {
+        setLoading(false);
         return;
       }
-  
+
+      const [mainImgUrl, img1Url, img2Url] = urls;
+
       await addProduct({
         variables: {
           title,
           price: parseFloat(price),
-          mainImg,
-          img1,
-          img2: ImageUrl,
+          mainImg: mainImgUrl,
+          img1: img1Url,
+          img2: img2Url,
           description,
           category,
         },
       });
-  
-      router.push('/dashboard');
-      setLoading(false);
+
+     
+
+      setTimeout(() => {
+        setShowFeedback(false);
+      }, 3000);
     } catch (error) {
-      console.error('Error adding product:', error);
       setLoading(false);
+    }finally{
+      setShowFeedback(true);
+      setLoading(false);
+      setTitle("");
+      setPrice("");
+      setMainImg("");
+      setImg1("");
+      setImg2("");
+      setDescription("");
+      setCategory("clothes");
     }
   };
-  
-  
-  
 
   return (
     <div className={css.thediv}>
       <form onSubmit={handleAddProduct}>
         <div className={css.motherdiv}>
-          <h1 className={css.h1}>Add Product</h1>
+          <div className="flex justify-center text-center">
+            <h1 className={css.h1}>Add Product</h1>
+          </div>
 
           <div className={css.select}>
             <label>Category</label>
-            <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-            >
+            <select value={category} onChange={(e) => setCategory(e.target.value)}>
               <option value="clothes">Clothes</option>
               <option value="electronic">Electronic</option>
               <option value="jewlery">Jewlery</option>
             </select>
           </div>
+
           <div className={css.row}>
             <div className={css.inpbox}>
               <label>Products Name</label>
-              <input
-                onChange={(e) => setTitle(e.target.value)}
-                type="text"
-                placeholder="Type Here"
-              />
+              <input value={title} onChange={(e) => setTitle(e.target.value)} type="text" />
             </div>
-
             <div className={css.inpbox}>
               <label>Products Price($)</label>
-              <input
-                onChange={(e) => setPrice(e.target.value)}
-                type="text"
-                placeholder="Type Here"
-              />
+              <input value={price}  onChange={(e) => setPrice(e.target.value)} type="text" />
             </div>
           </div>
+
           <div className={css.row}>
             <div className={css.inpbox}>
               <label>Products image URL(1)</label>
-              <input
-                onChange={(e) => setImg1(e.target.value)}
-                type="text"
-                placeholder="Type Here"
-              />
+              <input value={mainImg} onChange={(e) => setMainImg(e.target.files[0])} type="file" />
             </div>
-
             <div className={css.inpbox}>
               <label>Products image URL(2)</label>
-              <input
-                onChange={(e) => setImg2(e.target.value)}
-                type="text"
-                placeholder="Type Here"
-              />
+              <input value={img1} onChange={(e) => setImg1(e.target.files[0])} type="file" />
             </div>
           </div>
+
           <div className={css.row}>
             <div className={css.inpbox}>
               <label>Products image URL(3)</label>
-              <input
-                onChange={(e) => setImg3(e.target.files[0])}
-                type="file"
-                placeholder="Type Here"
-              />
+              <input value={img2} onChange={(e) => setImg2(e.target.files[0])} type="file" />
             </div>
             <div className={css.inpbox}>
               <label>Products Description</label>
-              <textarea
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="Type Here"
-              ></textarea>
+              <textarea value={description} onChange={(e) => setDescription(e.target.value)} />
             </div>
           </div>
-          <button className={css.button} type="submit">
-            {loading ? "Adding Product..." : "Add Product"}
-          </button>
+
+          <div className="flex justify-center text-center">
+            <button className={css.button} type="submit">
+              {loading ? "Adding Product..." : "Add Product"}
+            </button>
+          </div>
         </div>
       </form>
+      {showFeedback && <Feedback message={"successfuly added product"} />}
     </div>
   );
 }

@@ -13,10 +13,9 @@ import Link from "next/link";
 function ProductList() {
   const [showFeedback, setShowFeedback] = useState(false);
   const [showerror, setShowError] = useState(false);
-  const [title, setTitle] = useState("");
-  const [price, setPrice] = useState("");
   const { data, loading, error } = useQuery(GET_PRODUCT_CARD);
   const products = data?.products;
+  
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -35,6 +34,24 @@ function ProductList() {
     } else {
       setShowError(true);
     }
+  }
+  const clothesIndexFirst = 0;
+  const clothesIndexLast = 3;
+  const electronicsIndexFirst = 0;
+  const electronicsIndexLast = 3;   
+  const jewleryIndexFirst = 0;
+  const jewleryIndexLast = 3;
+
+  const paginationRight=(num1,num2)=>{
+    num1=num1+3;
+    num2=num2+3;
+    console.log(num1,num2);
+  }
+
+  const paginationLeft=(num1,num2)=>{
+    num1=num1-3;
+    num2=num2-3;
+    console.log(num1,num2);
   }
 
   const Card = React.memo((props) => {
@@ -63,12 +80,12 @@ function ProductList() {
               onLoad={() => setLoaded(true)}
             />
             <div className={css.otherdiv}>
-              <Link className={css.a1} href="product/${props.id}">
+              <p className={css.a1} href="product/${props.id}">
                 Buy Now
-              </Link>
-              <Link className={css.a2} href="#">
+              </p>
+              <p className={css.a2} href="#">
                 See More
-              </Link>
+              </p>
             </div>
           </div>
         </Link>
@@ -87,7 +104,7 @@ function ProductList() {
 
   const Clothes = products.filter((product) => product.category === "clothes");
   const Electronics = products.filter(
-    (product) => product.category === "electronics"
+    (product) => product.category === "electronic"
   );
   const Jewlery = products.filter((product) => product.category === "jewlery");
 
@@ -97,7 +114,10 @@ function ProductList() {
         <h1 className={css.h1}>Man & Woman Fashion</h1>
 
         <div className={css.maindiv}>
-          {Clothes.map((product) => {
+          {Clothes.slice(
+            clothesIndexFirst,
+            clothesIndexLast
+          ).map((product) => {
             return (
               <Card
                 key={product.id}
@@ -111,8 +131,16 @@ function ProductList() {
           })}
         </div>
         <div className={css.icons}>
-          <FaArrowLeft className={css.icon} />
-          <FaArrowRight className={css.icon} />
+          {clothesIndexFirst === 0 ? (
+            <FaArrowLeft className={css.icon} style={{ color: "gray" }} />
+          ) : (
+            <FaArrowLeft onClick={paginationLeft(clothesIndexFirst,clothesIndexLast)} className={css.icon} />
+          )}
+          {clothesIndexLast > Clothes.length-4?(
+            <FaArrowRight style={{color:'gray'}} onClick={paginationRight(clothesIndexFirst,clothesIndexLast)} className={css.icon} />
+          ):(
+            <FaArrowRight onClick={paginationRight(clothesIndexFirst,clothesIndexLast)} className={css.icon} />
+          )}
         </div>
       </section>
 
@@ -120,7 +148,10 @@ function ProductList() {
         <h1 className={css.h1}>Electronics</h1>
 
         <div className={css.maindiv}>
-          {Electronics.map((product) => {
+          {Electronics.slice(
+            electronicsIndexFirst,
+            electronicsIndexLast
+          ).map((product) => {
             return (
               <Card
                 key={product.id}
@@ -134,8 +165,12 @@ function ProductList() {
           })}
         </div>
         <div className={css.icons}>
-          <FaArrowLeft className={css.icon} />
-          <FaArrowRight className={css.icon} />
+        {electronicsIndexFirst === 0 ? (
+            <FaArrowLeft className={css.icon} style={{ color: "gray" }} />
+          ) : (
+            <FaArrowLeft onClick={paginationLeft(electronicsIndexFirst,electronicsIndexLast)} className={css.icon} />
+          )}
+          <FaArrowRight onClick={paginationRight(electronicsIndexFirst,electronicsIndexLast)} className={css.icon} />
         </div>
       </section>
 
@@ -143,7 +178,10 @@ function ProductList() {
         <h1 className={css.h1}>Jewellery</h1>
 
         <div className={css.maindiv}>
-          {Jewlery.map((product) => {
+          {Jewlery.slice(
+            jewleryIndexFirst,
+            jewleryIndexLast
+          ).map((product) => {
             return (
               <Card
                 key={product.id}
@@ -157,8 +195,12 @@ function ProductList() {
           })}
         </div>
         <div className={css.icons}>
-          <FaArrowLeft className={css.icon} />
-          <FaArrowRight className={css.icon} />
+        {jewleryIndexFirst === 0 ? (
+            <FaArrowLeft className={css.icon} style={{ color: "gray" }} />
+          ) : (
+            <FaArrowLeft onClick={paginationLeft(jewleryIndexFirst,jewleryIndexLast)} className={css.icon} />
+          )}
+          <FaArrowRight onClick={paginationRight(jewleryIndexFirst,jewleryIndexLast)} className={css.icon} />
         </div>
       </section>
 
@@ -173,19 +215,19 @@ function ProductList() {
         <div>
           <ul>
             <li className={css.li}>
-              <a href="#">Best Sellers</a>
+              <Link href="#">Best Sellers</Link>
             </li>
             <li className={css.li}>
-              <a href="#">Gift Ideas</a>
+              <Link href="#">Gift Ideas</Link>
             </li>
             <li className={css.li}>
-              <a href="#">New Releases</a>
+              <Link href="#">New Releases</Link>
             </li>
             <li className={css.li}>
-              <a href="#">Today's Deals</a>
+              <Link href="#">Today's Deals</Link>
             </li>
             <li className={css.li}>
-              <a href="#">Customer Service</a>
+              <Link href="#">Customer Service</Link>
             </li>
           </ul>
         </div>

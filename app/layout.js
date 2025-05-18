@@ -1,16 +1,17 @@
-'use client'
+"use client";
 
 import { Providers } from "./components/provider";
-import "./globals.css"; 
+import SessionWrapper from "./components/SessionWrapper";
+import "./globals.css";
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-     <body>
-      <Providers>
-        {children}
-      </Providers>
-     </body>
-    </html>
+    <SessionWrapper>
+      <html lang="en">
+        <body>
+          <Providers>{children}</Providers>
+        </body>
+      </html>
+    </SessionWrapper>
   );
 }

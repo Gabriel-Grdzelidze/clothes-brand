@@ -12,6 +12,7 @@ import { FaBell } from "react-icons/fa6";
 import Customers from "./customers";
 import Inventory from "./Inventory";
 import Dash from "./dash";
+import Link from "next/link";
 
 function Dashboard() {
   const [login, setLogin] = useState(false);
@@ -166,7 +167,7 @@ function Dashboard() {
               <p>
                 <span>Hello, </span> <span>Grdzelo</span>
               </p>{" "}
-              <a href="/profile.png"><Image className={css.profImg} width={50} height={50} src="/profile.png" alt="profile" /></a>
+              <Link href="/profile.png"><Image className={css.profImg} width={50} height={50} src="/profile.png" alt="profile" /></Link>
             </div>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import { TbLetterX } from "react-icons/tb";
 import css from './menu.module.css'
+import Link from "next/link";
 
 function Menu() {
     return(
@@ -9,10 +10,10 @@ function Menu() {
             </div>
 
             <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Fashion</a></li>
-                <li><a href="#">Electronics</a></li>
-                <li><a href="#">Jewellery</a></li>
+                <li><Link href="#">Home</Link></li>
+                <li><Link href="#">Fashion</Link></li>
+                <li><Link href="#">Electronics</Link></li>
+                <li><Link href="#">Jewellery</Link></li>
             </ul>
         </div>
     )

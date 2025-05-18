@@ -43,8 +43,8 @@ export const GET_PRODUCT_CARD = gql`
 `;
 
 export const GET_USERS= gql`
-  query User{
-    users{
+  query User($email:email){
+    users(email:$email){
       id
       name
       email
