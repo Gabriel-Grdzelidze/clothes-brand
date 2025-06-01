@@ -7,13 +7,32 @@ import ".././globals.css";
 import { useQuery } from "@apollo/client";
 import { GET_PRODUCTS } from "../../graphql/query";
 import Link from "next/link";
+import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 
 function AllProducts() {
   const [category, setCategory] = useState("all");
   const [products, setProducts] = useState([]);
+  const [pagitionIndex, setPaginationIndex] = useState({ first: 0, last: 6 });
 
   const { data, loading, error } = useQuery(GET_PRODUCTS);
-  
+
+  const paginationRight = (setIndex, index, total) => {
+    if (index.last < total) {
+      setIndex({
+        first: index.first + 3,
+        last: index.last + 3,
+      });
+    }
+  };
+
+  const paginationLeft = (setIndex, index) => {
+    if (index.first > 0) {
+      setIndex({
+        first: index.first - 3,
+        last: index.last - 3,
+      });
+    }
+  };
 
   useEffect(() => {
     const products = data?.products || [];
@@ -109,20 +128,22 @@ function AllProducts() {
         </div>
       </div>
 
-      <div className="grid grid-cols-4 overflow-y-auto h-[80vh]">
+      <div className="grid grid-cols-3 ml-56 overflow-y-auto h-[80vh]">
         {category === "all"
-          ? products.map((product) => {
-              return (
-                <Card
-                  key={product.id}
-                  url={product.url}
-                  title={product.title}
-                  img={product.mainImg}
-                  id={product.id}
-                  price={product.price}
-                />
-              );
-            })
+          ? products
+              .slice(pagitionIndex.first, pagitionIndex.last)
+              .map((product) => {
+                return (
+                  <Card
+                    key={product.id}
+                    url={product.url}
+                    title={product.title}
+                    img={product.mainImg}
+                    id={product.id}
+                    price={product.price}
+                  />
+                );
+              })
           : undefined}
 
         {category === "Clothes"
@@ -141,64 +162,88 @@ function AllProducts() {
           : undefined}
 
         {category === "electronics"
-          ? Electronics.map((product) => {
-              return (
-                <Card
-                  key={product.id}
-                  url={product.url}
-                  title={product.title}
-                  img={product.mainImg}
-                  id={product.id}
-                  price={product.price}
-                />
-              );
-            })
+          ? Electronics.slice(pagitionIndex.first, pagitionIndex.last).map(
+              (product) => {
+                return (
+                  <Card
+                    key={product.id}
+                    url={product.url}
+                    title={product.title}
+                    img={product.mainImg}
+                    id={product.id}
+                    price={product.price}
+                  />
+                );
+              }
+            )
           : undefined}
 
         {category === "jewllery"
-          ? Jewlery.map((product) => {
-              return (
-                <Card
-                  key={product.id}
-                  url={product.url}
-                  title={product.title}
-                  img={product.mainImg}
-                  id={product.id}
-                  price={product.price}
-                />
-              );
-            })
+          ? Jewlery.slice(pagitionIndex.first, pagitionIndex.last).map(
+              (product) => {
+                return (
+                  <Card
+                    key={product.id}
+                    url={product.url}
+                    title={product.title}
+                    img={product.mainImg}
+                    id={product.id}
+                    price={product.price}
+                  />
+                );
+              }
+            )
           : undefined}
 
         {category === "highprice"
-          ? sorted.map((product) => {
-              return (
-                <Card
-                  key={product.id}
-                  url={product.url}
-                  title={product.title}
-                  img={product.mainImg}
-                  id={product.id}
-                  price={product.price}
-                />
-              );
-            })
+          ? sorted
+              .slice(pagitionIndex.first, pagitionIndex.last)
+              .map((product) => {
+                return (
+                  <Card
+                    key={product.id}
+                    url={product.url}
+                    title={product.title}
+                    img={product.mainImg}
+                    id={product.id}
+                    price={product.price}
+                  />
+                );
+              })
           : undefined}
 
         {category === "lowprice"
-          ? reverceFilter.map((product) => {
-              return (
-                <Card
-                  key={product.id}
-                  url={product.url}
-                  title={product.title}
-                  img={product.mainImg}
-                  id={product.id}
-                  price={product.price}
-                />
-              );
-            })
+          ? reverceFilter
+              .slice(pagitionIndex.first, pagitionIndex.last)
+              .map((product) => {
+                return (
+                  <Card
+                    key={product.id}
+                    url={product.url}
+                    title={product.title}
+                    img={product.mainImg}
+                    id={product.id}
+                    price={product.price}
+                  />
+                );
+              })
           : undefined}
+      </div>
+      <div className={css.icons}>
+        <button
+          className={css.icon}
+          onClick={() => paginationLeft(setPaginationIndex, pagitionIndex)}
+        >
+          <FaArrowLeft />
+        </button>
+        <button
+          className={css.icon}
+          onClick={() =>
+            paginationLeft(setPaginationIndex, pagitionIndex, products.length)
+          }
+        >
+          <FaArrowRight />
+        </button>
       </div>
     </div>
   );

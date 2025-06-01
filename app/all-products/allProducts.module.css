@@ -114,3 +114,26 @@
   border-radius: 5px;
   padding: 7px 5px;
 }
+
+.icons{
+  display: block;
+  
+  margin-top: 100px;
+  display: flex;
+  justify-content: center;
+  gap: 250px;
+}
+
+.icon{
+  font-size: 50px;
+  color: #f1f1f1;
+  background-color: #2b2a29;
+  padding: 15px;
+  cursor: pointer;
+  transition: .6s;
+  border-radius: 5px;
+}
+
+.icon:hover{
+  background-color: #fd7e14;
+}

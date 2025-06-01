@@ -1,7 +1,7 @@
 "use client";
 import css from "./Inventory.module.css";
 import css2 from "./update.module.css";
-import { useState, } from "react";
+import { useState } from "react";
 import { MdDelete } from "react-icons/md";
 import { IoMdExit } from "react-icons/io";
 import { MdEditNote } from "react-icons/md";
@@ -9,13 +9,13 @@ import { useMutation, useQuery } from "@apollo/client";
 import { GET_PRODUCTS } from "../../graphql/query";
 import { DELETE_PRODUCT, UPDATE_PRODUCT } from "../../graphql/mutations";
 import Link from "next/link";
+import Image from "next/image";
 
 function Inventory() {
   const [all, setAll] = useState(true);
-  const [Clothes , setClothes] = useState(false)
-  const [electronics , setElectronics] = useState(false)
-  const [jewlery , setJewlery] = useState(false)
-
+  const [Clothes, setClothes] = useState(false);
+  const [electronics, setElectronics] = useState(false);
+  const [jewlery, setJewlery] = useState(false);
 
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
@@ -24,12 +24,11 @@ function Inventory() {
   const [img1, setImg2] = useState("");
   const [img2, setImg3] = useState("");
   const [update, setUpdate] = useState(false);
-  const [productId , setProductId] = useState("")
- 
+  const [productId, setProductId] = useState("");
 
-  const {data , error , loading} = useQuery(GET_PRODUCTS)
-  const products = data?.products
-  
+  const { data, error, loading } = useQuery(GET_PRODUCTS);
+  const products = data?.products;
+
   function allActive() {
     setAll(true);
     setClothes(false);
@@ -58,20 +57,20 @@ function Inventory() {
     setJewlery(true);
   }
 
-    const [deleteProduct] = useMutation(DELETE_PRODUCT,{
-      refetchQueries:[{query:GET_PRODUCTS}]
-    }) 
- 
-    const [updateProduct] = useMutation(UPDATE_PRODUCT,{
-      refetchQueries:[{query:GET_PRODUCTS}]
-    })
-   
+  const [deleteProduct] = useMutation(DELETE_PRODUCT, {
+    refetchQueries: [{ query: GET_PRODUCTS }],
+  });
+
+  const [updateProduct] = useMutation(UPDATE_PRODUCT, {
+    refetchQueries: [{ query: GET_PRODUCTS }],
+  });
+
   const handleUpdateProduct = async (e) => {
     e.preventDefault();
     try {
       await updateProduct({
         variables: {
-          id: productId, 
+          id: productId,
           title,
           price: parseInt(price),
           description,
@@ -85,9 +84,8 @@ function Inventory() {
       console.log(JSON.stringify(error, null, 2));
     }
   };
-  
+
   const handleEditProduct = (product) => {
-  
     setUpdate(true);
     setTitle(product.title);
     setPrice(product.price.toString());
@@ -95,49 +93,70 @@ function Inventory() {
     setImg1(product.mainImg);
     setImg2(product.img1);
     setImg3(product.img2);
-    setProductId(product.id)
+    setProductId(product.id);
   };
-  
+
   const Card = (props) => {
     const [hover, setHover] = useState(false);
-  
+
     return (
       <div
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
-        className={css.card}
+        style={{
+          display: "flex",
+          marginBottom: 20,
+          marginLeft: 20,
+          border: "1px solid #ccc",
+          padding: 10,
+          borderRadius: 10,
+          gap: 20,
+          maxWidth: "90%",
+        }}
       >
-        <p>
-          <span className={css.span}>
-            Name<span className={css.span}></span>
-          </span>{" "}
-          : {props.name}
-        </p>
-        <p>
-          <span className={css.span}>Price</span> : {props.price}$
-        </p>
-        <p>
-          <span className={css.span}>Image1</span>: {props.mainimg}
-        </p>
-        <p>
-          <span className={css.span}>Image2</span> : {props.img1}
-        </p>
-        <p>
-          <span className={css.span}>Image3</span> : {props.img2}{" "}
-        </p>
-        <p>
-          <span className={css.span}>Description</span> : {props.description}{" "}
-        </p>
-        {hover && (
-          <button className={css.deleteButton} onClick={props.onDelete}>
-            <MdDelete />
-          </button>
-        )}
-        {hover && (
-          <button className={css.updateButton} onClick={() => props.onUpdate(props.product)}>
-            <MdEditNote />
-          </button>
-        )}
+        <div style={{ marginTop: 30 }}>
+          <Image width={100} height={100} src={props.mainimg} alt="image" />
+          <div className="flex">
+            <Image width={50} height={50} src={props.img1} alt="image" />
+            <Image width={50} height={50} src={props.img2} alt="image" />
+          </div>
+        </div>
+        <div className={css.card}>
+          <p>
+            <span className={css.span}>
+              Name<span className={css.span}></span>
+            </span>{" "}
+            : {props.name}
+          </p>
+          <p>
+            <span className={css.span}>Price</span> : {props.price}$
+          </p>
+          <p>
+            <span className={css.span}>Image1</span>: {props.mainimg}
+          </p>
+          <p>
+            <span className={css.span}>Image2</span> : {props.img1}
+          </p>
+          <p>
+            <span className={css.span}>Image3</span> : {props.img2}{" "}
+          </p>
+          <p>
+            <span className={css.span}>Description</span> : {props.description}{" "}
+          </p>
+          {hover && (
+            <button className={css.deleteButton} onClick={props.onDelete}>
+              <MdDelete />
+            </button>
+          )}
+          {hover && (
+            <button
+              className={css.updateButton}
+              onClick={() => props.onUpdate(props.product)}
+            >
+              <MdEditNote />
+            </button>
+          )}
+        </div>
       </div>
     );
   };
@@ -152,7 +171,7 @@ function Inventory() {
         >
           <IoMdExit />
         </button>
-  
+
         <div className={css2.motherdiv}>
           <form onSubmit={handleUpdateProduct}>
             <h1 className={css2.h1}>Update Data</h1>
@@ -166,7 +185,7 @@ function Inventory() {
                   placeholder="Type Here"
                 />
               </div>
-  
+
               <div className={css2.inpbox}>
                 <label>Products Price($)</label>
                 <input
@@ -182,17 +201,15 @@ function Inventory() {
                 <label>Products image URL(1)</label>
                 <input
                   onChange={(e) => setImg1(e.target.files[0])}
-                 
                   type="file"
                   placeholder="Type Here"
                 />
               </div>
-  
+
               <div className={css2.inpbox}>
                 <label>Products image URL(2)</label>
                 <input
                   onChange={(e) => setImg2(e.target.files[0])}
-                  
                   type="file"
                   placeholder="Type Here"
                 />
@@ -203,7 +220,6 @@ function Inventory() {
                 <label>Products image URL(3)</label>
                 <input
                   onChange={(e) => setImg3(e.target.files[0])}
-                  
                   type="file"
                   placeholder="Type Here"
                 />
@@ -218,8 +234,6 @@ function Inventory() {
               </div>
             </div>
 
-        
-  
             <button className={css2.button} type="submit">
               Update
             </button>
@@ -228,13 +242,17 @@ function Inventory() {
       </div>
     );
   }
-  
-  if(loading) return <p>Loading Data...</p>
-  const ClothesProducts = products.filter((product) => product.category === "clothes");
+
+  if (loading) return <p>Loading Data...</p>;
+  const ClothesProducts = products.filter(
+    (product) => product.category === "clothes"
+  );
   const ElectronicsProducts = products.filter(
     (product) => product.category === "electronic"
   );
-  const JewleryProducts = products.filter((product) => product.category === "jewlery");
+  const JewleryProducts = products.filter(
+    (product) => product.category === "jewlery"
+  );
 
   return (
     <div>
@@ -275,7 +293,6 @@ function Inventory() {
       </div>
 
       <div>
-        
         {all &&
           products.map((product) => {
             return (
@@ -287,7 +304,9 @@ function Inventory() {
                 img2={product.img2}
                 description={product.description}
                 key={product.id}
-                onDelete={() => deleteProduct({variables:{id: product.id}})}
+                onDelete={() =>
+                  deleteProduct({ variables: { id: product.id } })
+                }
                 onUpdate={() => handleEditProduct(product)}
                 product={product}
               />
@@ -305,7 +324,9 @@ function Inventory() {
                 img2={product.img2}
                 description={product.description}
                 key={product.id}
-                onDelete={() => deleteProduct({variables:{id: product.id}})}
+                onDelete={() =>
+                  deleteProduct({ variables: { id: product.id } })
+                }
                 onUpdate={() => handleEditProduct(product)}
                 product={product}
               />
@@ -323,7 +344,9 @@ function Inventory() {
                 img2={product.img2}
                 description={product.description}
                 key={product.id}
-                onDelete={() => deleteProduct({variables:{id: product.id}})}
+                onDelete={() =>
+                  deleteProduct({ variables: { id: product.id } })
+                }
                 onUpdate={() => handleEditProduct(product)}
                 product={product}
               />
@@ -341,7 +364,9 @@ function Inventory() {
                 img2={product.img2}
                 description={product.description}
                 key={product.id}
-                onDelete={() => deleteProduct({variables:{id: product.id}})}
+                onDelete={() =>
+                  deleteProduct({ variables: { id: product.id } })
+                }
               />
             );
           })}

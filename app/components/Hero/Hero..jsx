@@ -198,11 +198,11 @@ function Hero() {
           <br />
           Your Favorite Shopping
         </h1>
-        <button className={css.buttmid}>Shop Now</button>
+       <div className="flex">
+         <button className={css.buttmid}>Shop Now</button>
+         <button className={css.all} onClick={()=>router.push('all-products')}>See All Poducts</button>
+       </div>
       </div>
-      <Link className={css.all} href="all-products">
-        See All Products
-      </Link>
     </section>
   );
 }
