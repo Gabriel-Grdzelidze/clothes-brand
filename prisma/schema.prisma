@@ -24,3 +24,11 @@ model Product {
   img2        String
   category    String
 }
+
+model Order {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  price    Float
+  mainImg  String
+  createdAt DateTime @default(now())
+}

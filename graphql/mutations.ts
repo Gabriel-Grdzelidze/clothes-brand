@@ -77,7 +77,6 @@ export const UPDATE_PRODUCT = gql`
     $mainImg: String!
     $img1: String!
     $img2: String!
-
   ) {
     updateProduct(
       id: $id
@@ -87,7 +86,6 @@ export const UPDATE_PRODUCT = gql`
       mainImg: $mainImg
       img1: $img1
       img2: $img2
- 
     ) {
       id
       title
@@ -96,7 +94,38 @@ export const UPDATE_PRODUCT = gql`
       mainImg
       img1
       img2
+    }
+  }
+`;
 
+export const ADD_PRODUCT_TO_CART = gql`
+  mutation addProductToCart($id: ID!, $price: Float, $mainImg: String, $name: String) {
+    addProductToCart(id: $id, price: $price, mainImg: $mainImg, name: $name) {
+      id
+      name
+      price
+      mainImg
+    }
+  }
+`;
+
+export const REMOVE_PRODUCT_TO_CART = gql`
+  mutation removeProductToCart($id: ID!) {
+    removeProductToCart(id: $id) {
+      id
+      name
+      price
+      mainImg
+    }
+  }
+`;
+export const CLEAR_CART = gql`
+  mutation clearCart {
+    clearCart {
+      id
+      name
+      price
+      mainImg
     }
   }
 `;

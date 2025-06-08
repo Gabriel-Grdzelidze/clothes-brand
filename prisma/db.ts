@@ -1,4 +1,3 @@
-// lib/prismaDynamic.ts
 import { PrismaClient } from "@prisma/client";
 
 const URL=process.env.DATABASE_URL

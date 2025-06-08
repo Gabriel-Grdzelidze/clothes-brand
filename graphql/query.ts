@@ -30,17 +30,18 @@ export const GET_PRODUCT = gql`
   }
 `;
 
-export const GET_PRODUCT_CARD = gql`
-  query Products {
-    products {
+
+export const CART_PRODUCTS= gql`
+  query Order{
+    order{
       id
-      title
+      name
       price
-      category
       mainImg
     }
   }
-`;
+`
+
 
 export const GET_USERS= gql`
   query User($email:email){
@@ -52,3 +53,14 @@ export const GET_USERS= gql`
     }
   }
 `
+export const GET_PRODUCT_CARD = gql`
+  query Products {
+    products {
+      id
+      title
+      price
+      category
+      mainImg
+    }
+  }
+`;

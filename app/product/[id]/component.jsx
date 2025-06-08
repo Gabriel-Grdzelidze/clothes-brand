@@ -1,14 +1,61 @@
 "use client";
 import Image from "next/image";
 import { RadioGroup, Radio } from "@headlessui/react";
-import "../.././globals.css";
-import { useState } from "react";
+import "../../globals.css";
+import { useState, useEffect } from "react";
 import css from "./components.module.css";
-
+import { useMutation, useQuery } from "@apollo/client";
+import { ADD_PRODUCT_TO_CART, REMOVE_PRODUCT_TO_CART } from "../../../graphql/mutations";
+import { CART_PRODUCTS } from "../../../graphql/query";
 
 function DetailPage(props) {
+  const [addingToCart, setAddingToCart] = useState(false);
+  const { data, error, refetch } = useQuery(CART_PRODUCTS);
+  const [cartCheck, setCartCheck] = useState(false);
+  const { id, mainImg, title, price, img1, img2, description } = props.data;
 
-  const { mainImg , title , price , img1 , img2 , description } = props.data;
+  const [addProductToCart] = useMutation(ADD_PRODUCT_TO_CART, {
+    refetchQueries: [{ query: CART_PRODUCTS }],
+  });
+
+  const [removeProductToCart] = useMutation(REMOVE_PRODUCT_TO_CART, {
+    refetchQueries: [{ query: CART_PRODUCTS }],
+  });
+
+  useEffect(() => {
+    const isProductInCart = data?.order?.some((item) => item.id === id);
+    setCartCheck(isProductInCart);
+  }, [data]);
+
+  if (!props?.data || props.data instanceof Error) {
+    return <div>Error loading product details.</div>;
+  }
+
+  const addProductToCartHandler = async () => {
+    setAddingToCart(true);
+    try {
+      await addProductToCart({
+        variables: { id, mainImg, name: title, price },
+      });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setAddingToCart(false);
+    }
+  };
+
+  const removeProductToCartHandler = async () => {
+    setAddingToCart(true);
+    try {
+      await removeProductToCart({
+        variables: { id },
+      });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setAddingToCart(false);
+    }
+  };
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -19,6 +66,7 @@ function DetailPage(props) {
     { name: "Gray", class: "bg-gray-200", selectedClass: "ring-gray-400" },
     { name: "Black", class: "bg-gray-900", selectedClass: "ring-gray-900" },
   ];
+
   const sizes = [
     { name: "XS", inStock: true },
     { name: "S", inStock: true },
@@ -43,20 +91,9 @@ function DetailPage(props) {
             height={100}
             className={css.mainImg}
           />
-
           <div className={css.imgdiv}>
-            <Image
-              src={img1}
-              alt={title}
-              width={200}
-              height={150}
-            />
-            <Image
-              src={img2}
-              alt={title}
-              width={200}
-              height={150}
-            />
+            <Image src={img1} alt={title} width={200} height={150} />
+            <Image src={img2} alt={title} width={200} height={150} />
           </div>
         </div>
 
@@ -74,7 +111,6 @@ function DetailPage(props) {
               <span className={css.star}>&#9733;</span>
               <span className={css.star}>&#9733;</span>
             </div>
-
             <p>See All reviews</p>
           </div>
 
@@ -109,60 +145,6 @@ function DetailPage(props) {
                 </RadioGroup>
               </fieldset>
             </div>
-
-            {/* {sizes && <div>
-              <label>Size</label>
-
-              <fieldset aria-label="Choose a size" className="mt-4">
-                <RadioGroup
-                  value={selectedSize}
-                  onChange={setSelectedSize}
-                  className="grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-4"
-                >
-                  {sizes.map((size) => (
-                    <Radio
-                      key={size.name}
-                      value={size}
-                      disabled={!size.inStock}
-                      className={classNames(
-                        size.inStock
-                          ? "cursor-pointer bg-white text-gray-900 shadow-sm"
-                          : "cursor-not-allowed bg-gray-50 text-gray-200",
-                        "group relative flex items-center justify-center rounded-md border px-4 py-3 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none data-[focus]:ring-2 data-[focus]:ring-indigo-500 sm:flex-1 sm:py-6"
-                      )}
-                    >
-                      <span>{size.name}</span>
-                      {size.inStock ? (
-                        <span
-                          aria-hidden="true"
-                          className="pointer-events-none absolute -inset-px rounded-md border-2 border-transparent group-data-[focus]:border group-data-[checked]:border-indigo-500"
-                        />
-                      ) : (
-                        <span
-                          aria-hidden="true"
-                          className="pointer-events-none absolute -inset-px rounded-md border-2 border-gray-200"
-                        >
-                          <svg
-                            stroke="currentColor"
-                            viewBox="0 0 100 100"
-                            preserveAspectRatio="none"
-                            className="absolute inset-0 size-full stroke-2 text-gray-200"
-                          >
-                            <line
-                              x1={0}
-                              x2={100}
-                              y1={100}
-                              y2={0}
-                              vectorEffect="non-scaling-stroke"
-                            />
-                          </svg>
-                        </span>
-                      )}
-                    </Radio>
-                  ))}
-                </RadioGroup>
-              </fieldset>
-            </div>} */}
           </div>
 
           <div className={css.descriptionDiv}>
@@ -170,6 +152,23 @@ function DetailPage(props) {
             <p className={css.description}>{description}</p>
           </div>
         </div>
+
+        {cartCheck ? (
+          <button
+            className={css.cartButton}
+            onClick={removeProductToCartHandler}
+            style={{ backgroundColor: "#EA2F14" }}
+          >
+            Remove from list
+          </button>
+        ) : (
+          <button
+            onClick={addProductToCartHandler}
+            className={css.cartButton}
+          >
+            {addingToCart ? "adding product..." : "Add to Cart"}
+          </button>
+        )}
       </div>
     </div>
   );

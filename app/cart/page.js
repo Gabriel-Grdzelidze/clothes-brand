@@ -1,9 +1,11 @@
-function Cart(){
-    return(
+import Cart from "../components/cart/Cart"
+
+function CartPage(){
+    return( 
         <div>
-            hello wolrd
+           <Cart />
         </div>
     )
 }
 
-export default Cart;
+export default CartPage;

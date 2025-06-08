@@ -13,7 +13,10 @@ export const resolvers = {
       });
     },
     users: async (parent: any, args: any, context: Context) => {
-     return await context.prisma.user.findMany();
+      return await context.prisma.user.findMany();
+    },
+    order: async (parent: any, args: any, context: Context) => {
+      return await context.prisma.order.findMany();
     },
   },
   Mutation: {
@@ -27,6 +30,17 @@ export const resolvers = {
           img1: args.img1,
           img2: args.img2,
           category: args.category,
+        },
+      });
+    },
+
+    addProductToCart: async (parent: any, args: any, context: Context) => {
+      return await context.prisma.order.create({
+        data: {
+          id: args.id,
+          name: args.name,
+          price: args.price,
+          mainImg: args.mainImg,
         },
       });
     },
@@ -69,6 +83,17 @@ export const resolvers = {
           id: args.id,
         },
       });
+    },
+    removeProductToCart: async (parent: any, args: any, context: Context) => {
+      return await context.prisma.order.delete({
+        where: {
+          id: args.id,
+        },
+      });
+    },
+
+    clearCart: async (parent: any, args: any, context: Context) => {
+      return await context.prisma.order.deleteMany({});
     },
   },
 };
